@@ -362,6 +362,18 @@
   <script>
     let selectedMood = null;
 
+    // Mood to placeholder mapping
+    const moodPlaceholders = {
+      '😊': "What made you smile?",
+      '🤔': "What's on your mind?",
+      '😐': "Even ordinary days matter.",
+      '😴': "Too tired to talk? Type instead.",
+      '😤': "Let it out. No judgement.",
+      '😢': "Want to get it off your chest?"
+    };
+
+    const defaultPlaceholder = "What's worth remembering today?";
+
     // Select mood when user clicks emoji
     function selectMood(mood) {
       selectedMood = mood;
@@ -370,6 +382,10 @@
         btn.classList.remove('selected');
       });
       event.target.classList.add('selected');
+
+      // Update textarea placeholder based on selected mood
+      const textarea = document.getElementById('diaryEntry');
+      textarea.placeholder = moodPlaceholders[mood] || defaultPlaceholder;
     }
 
     // Handle search input
@@ -468,7 +484,9 @@
       localStorage.setItem('diaryEntries', JSON.stringify(entries));
       
       // Clear form
-      document.getElementById('diaryEntry').value = '';
+      const textarea = document.getElementById('diaryEntry');
+      textarea.value = '';
+      textarea.placeholder = defaultPlaceholder;
       document.getElementById('wordCount').textContent = '0 / 99 words';
       selectedMood = null;
       document.querySelectorAll('.mood-btn').forEach(btn => {
