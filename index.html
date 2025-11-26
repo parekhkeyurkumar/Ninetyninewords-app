@@ -432,16 +432,226 @@
       font-size: 14px;
       margin-top: 40px;
     }
+
+    /* Hamburger Menu */
+    .hamburger-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border: none;
+      border-radius: 12px;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      transition: all 0.2s;
+      color: #667eea;
+    }
+
+    .hamburger-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+    }
+
+    .hamburger-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -280px;
+      width: 280px;
+      height: 100vh;
+      background: white;
+      box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+      z-index: 1001;
+      transition: left 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    .sidebar-header {
+      padding: 30px 20px 20px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .sidebar-logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sidebar-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #f0f0f0;
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      transition: all 0.2s;
+    }
+
+    .sidebar-close:hover {
+      background: #e0e0e0;
+      color: #333;
+      transform: scale(1.1);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 20px 0;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 24px;
+      color: #666;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-item:hover {
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    .nav-item.active {
+      background: #f0f4ff;
+      color: #667eea;
+      border-left: 4px solid #667eea;
+      padding-left: 20px;
+    }
+
+    .nav-item-icon {
+      font-size: 20px;
+    }
+
+    .sidebar-footer {
+      padding: 20px;
+      border-top: 1px solid #e0e0e0;
+      text-align: center;
+      color: #999;
+      font-size: 13px;
+      font-style: italic;
+    }
+
+    /* Backdrop */
+    .backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .backdrop.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* View sections */
+    .view-section {
+      display: none;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    /* Insights view */
+    .insights-view {
+      background: white;
+      padding: 60px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .insights-placeholder {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .insights-text {
+      font-size: 20px;
+      color: #666;
+      font-weight: 500;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>📔 NinetyNine Words</h1>
-      <p class="tagline">Your day in ninety-nine words.<br><strong>One less than perfect, just like life.</strong></p>
-    </div>
+  <!-- Hamburger Menu Button -->
+  <button class="hamburger-btn" onclick="toggleSidebar()">☰</button>
 
-    <div class="write-section">
+  <!-- Backdrop -->
+  <div class="backdrop" onclick="closeSidebar()"></div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">📓 NinetyNine Words</div>
+      <button class="sidebar-close" onclick="closeSidebar()">✕</button>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" onclick="switchView('capture')">
+        <span class="nav-item-icon">✏️</span>
+        <span>Capture</span>
+      </button>
+      <button class="nav-item" onclick="switchView('insights')">
+        <span class="nav-item-icon">📊</span>
+        <span>Insights</span>
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      Write less. Remember more.
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Capture View (Default) -->
+    <div class="view-section active" id="captureView">
+      <div class="header">
+        <h1>📔 NinetyNine Words</h1>
+        <p class="tagline">Your day in ninety-nine words.<br><strong>One less than perfect, just like life.</strong></p>
+      </div>
+
+      <div class="write-section">
       <div class="mood-selector">
         <div class="mood-label">Pick your mood</div>
         <div class="mood-buttons">
@@ -473,7 +683,16 @@
       <div class="search-results" id="searchResults"></div>
     </div>
 
-    <div class="entries" id="entriesList"></div>
+      <div class="entries" id="entriesList"></div>
+    </div>
+
+    <!-- Insights View -->
+    <div class="view-section" id="insightsView">
+      <div class="insights-view">
+        <div class="insights-placeholder">📊</div>
+        <div class="insights-text">Mood insights coming soon...</div>
+      </div>
+    </div>
 
     <div class="footer">
       Write less. Remember more.
@@ -484,6 +703,48 @@
     let selectedMood = null;
     let editingEntryId = null;
     let editingMood = null;
+    let currentView = 'capture';
+
+    // Sidebar functions
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const backdrop = document.querySelector('.backdrop');
+      sidebar.classList.toggle('open');
+      backdrop.classList.toggle('visible');
+    }
+
+    function closeSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const backdrop = document.querySelector('.backdrop');
+      sidebar.classList.remove('open');
+      backdrop.classList.remove('visible');
+    }
+
+    // View switching
+    function switchView(viewName) {
+      currentView = viewName;
+
+      // Hide all views
+      document.querySelectorAll('.view-section').forEach(view => {
+        view.classList.remove('active');
+      });
+
+      // Show selected view
+      if (viewName === 'capture') {
+        document.getElementById('captureView').classList.add('active');
+      } else if (viewName === 'insights') {
+        document.getElementById('insightsView').classList.add('active');
+      }
+
+      // Update nav items
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      event.target.closest('.nav-item').classList.add('active');
+
+      // Close sidebar
+      closeSidebar();
+    }
 
     // Mood to placeholder mapping
     const moodPlaceholders = {
