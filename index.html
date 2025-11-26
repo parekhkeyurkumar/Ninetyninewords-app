@@ -1262,16 +1262,42 @@
 
     // Select mood when user clicks emoji
     function selectMood(mood, event) {
+      console.log('selectMood called with:', mood);
       selectedMood = mood;
 
+      // Remove selected class from all mood buttons
       document.querySelectorAll('.mood-btn').forEach(btn => {
         btn.classList.remove('selected');
       });
-      event.target.classList.add('selected');
+
+      // Add selected class to clicked button
+      // Need to find the button element (might click on emoji text node)
+      if (event && event.target) {
+        let button = event.target;
+        // If clicked on text/emoji inside button, get the button element
+        if (!button.classList.contains('mood-btn')) {
+          button = button.closest('.mood-btn');
+        }
+        if (button) {
+          button.classList.add('selected');
+          console.log('Added selected class to button');
+        }
+      } else {
+        // Fallback: find button by data-mood attribute
+        const button = document.querySelector(`.mood-btn[data-mood="${mood}"]`);
+        if (button) {
+          button.classList.add('selected');
+          console.log('Added selected class via fallback method');
+        }
+      }
 
       // Update textarea placeholder based on selected mood
       const textarea = document.getElementById('diaryEntry');
-      textarea.placeholder = moodPlaceholders[mood] || defaultPlaceholder;
+      if (textarea) {
+        textarea.placeholder = moodPlaceholders[mood] || defaultPlaceholder;
+      }
+
+      console.log('selectedMood is now:', selectedMood);
     }
 
     // Handle search input
@@ -1336,24 +1362,30 @@
 
     // Save entry to localStorage
     function saveEntry() {
+      console.log('saveEntry called, selectedMood:', selectedMood);
       const text = document.getElementById('diaryEntry').value.trim();
       const words = text === '' ? 0 : text.split(/\s+/).length;
-      
+
+      console.log('Entry text:', text, 'Words:', words);
+
       // Validation
       if (text === '') {
         alert('✍️ Write something first!');
         return;
       }
-      
+
       if (words > 99) {
         alert('📝 Please keep it under 99 words!');
         return;
       }
 
       if (!selectedMood) {
+        console.log('No mood selected!');
         alert('😊 Pick a mood first!');
         return;
       }
+
+      console.log('All validations passed, creating entry...');
       
       // Get existing entries
       let entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
@@ -2194,9 +2226,42 @@
       container.innerHTML = html;
     }
 
+    // Initialize mood button click handlers
+    function initMoodButtons() {
+      console.log('Initializing mood button handlers...');
+      const moodButtons = document.querySelectorAll('.mood-btn');
+      console.log('Found mood buttons:', moodButtons.length);
+
+      moodButtons.forEach(btn => {
+        const mood = btn.getAttribute('data-mood');
+        console.log('Setting up button for mood:', mood);
+
+        // Remove existing onclick if any
+        btn.onclick = function(e) {
+          e.preventDefault();
+          selectMood(mood, e);
+        };
+
+        // Also add event listener as backup
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          console.log('Click event fired for mood:', mood);
+          selectMood(mood, e);
+        });
+      });
+    }
+
     // Load entries when page loads
     displayEntries();
     updateStreakDisplay();
+
+    // Initialize mood buttons after DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMoodButtons);
+    } else {
+      // DOM is already loaded
+      initMoodButtons();
+    }
   </script>
 </body>
 </html>
