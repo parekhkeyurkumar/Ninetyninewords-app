@@ -692,26 +692,9 @@
       gap: 8px;
     }
 
-    .streak-emoji {
-      font-size: 24px;
-      animation: flicker 2s infinite;
-    }
-
-    @keyframes flicker {
-      0%, 100% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0.8;
-      }
-    }
-
     @media (max-width: 500px) {
       .streak-text {
         font-size: 16px;
-      }
-      .streak-emoji {
-        font-size: 20px;
       }
     }
   </style>
@@ -738,11 +721,11 @@
       <button class="sidebar-close" onclick="closeSidebar()">✕</button>
     </div>
     <nav class="sidebar-nav">
-      <button class="nav-item active" onclick="switchView('capture')">
+      <button class="nav-item active" onclick="switchView('capture', event)">
         <span class="nav-item-icon">✏️</span>
         <span>Capture</span>
       </button>
-      <button class="nav-item" onclick="switchView('insights')">
+      <button class="nav-item" onclick="switchView('insights', event)">
         <span class="nav-item-icon">📊</span>
         <span>Insights</span>
       </button>
@@ -760,7 +743,6 @@
       <!-- Streak Counter -->
       <div class="streak-counter" id="streakCounter">
         <div class="streak-text">
-          <span class="streak-emoji"></span>
           <span id="streakMessage">Start your streak today! 🔥</span>
         </div>
       </div>
@@ -768,12 +750,12 @@
       <div class="mood-selector">
         <div class="mood-label">Pick your mood</div>
         <div class="mood-buttons">
-          <button type="button" class="mood-btn" data-mood="😊" onclick="selectMood('😊')" title="Happy">😊</button>
-          <button type="button" class="mood-btn" data-mood="🤔" onclick="selectMood('🤔')" title="Thoughtful">🤔</button>
-          <button type="button" class="mood-btn" data-mood="😐" onclick="selectMood('😐')" title="Neutral">😐</button>
-          <button type="button" class="mood-btn" data-mood="😴" onclick="selectMood('😴')" title="Tired">😴</button>
-          <button type="button" class="mood-btn" data-mood="😤" onclick="selectMood('😤')" title="Angry">😤</button>
-          <button type="button" class="mood-btn" data-mood="😢" onclick="selectMood('😢')" title="Sad">😢</button>
+          <button type="button" class="mood-btn" data-mood="😊" onclick="selectMood('😊', event)" title="Happy">😊</button>
+          <button type="button" class="mood-btn" data-mood="🤔" onclick="selectMood('🤔', event)" title="Thoughtful">🤔</button>
+          <button type="button" class="mood-btn" data-mood="😐" onclick="selectMood('😐', event)" title="Neutral">😐</button>
+          <button type="button" class="mood-btn" data-mood="😴" onclick="selectMood('😴', event)" title="Tired">😴</button>
+          <button type="button" class="mood-btn" data-mood="😤" onclick="selectMood('😤', event)" title="Angry">😤</button>
+          <button type="button" class="mood-btn" data-mood="😢" onclick="selectMood('😢', event)" title="Sad">😢</button>
         </div>
       </div>
 
@@ -865,7 +847,10 @@
       }
 
       // Count consecutive days
-      let checkDate = new Date(startDate);
+      // Parse date string as local time to avoid timezone issues
+      const [startYear, startMonth, startDay] = startDate.split('-').map(Number);
+      let checkDate = new Date(startYear, startMonth - 1, startDay);
+
       while (true) {
         const checkDateStr = checkDate.getFullYear() + '-' +
                             String(checkDate.getMonth() + 1).padStart(2, '0') + '-' +
@@ -900,17 +885,15 @@
         // Wrote today
         if (streak === 99) {
           message = '🔥 99 days! One less than perfect!';
-        } else if (streak >= 30) {
-          const months = Math.floor(streak / 30);
-          if (streak === 30) {
-            message = '🔥 1 month strong!';
-          } else {
-            message = `🔥 ${streak} day${streak !== 1 ? 's' : ''}!`;
-          }
-        } else if (streak === 7) {
-          message = '🔥 1 week strong!';
         } else if (streak === 1) {
           message = '🔥 1 day streak!';
+        } else if (streak === 7) {
+          message = '🔥 1 week strong!';
+        } else if (streak === 30) {
+          message = '🔥 1 month strong!';
+        } else if (streak >= 60 && streak % 30 === 0) {
+          const months = Math.floor(streak / 30);
+          message = `🔥 ${months} months strong!`;
         } else {
           message = `🔥 ${streak} day${streak !== 1 ? 's' : ''}!`;
         }
@@ -957,7 +940,7 @@
     }
 
     // View switching
-    function switchView(viewName) {
+    function switchView(viewName, event) {
       currentView = viewName;
 
       // Hide all views
@@ -1005,7 +988,7 @@
     const defaultPlaceholder = "What's worth remembering today?";
 
     // Select mood when user clicks emoji
-    function selectMood(mood) {
+    function selectMood(mood, event) {
       selectedMood = mood;
 
       document.querySelectorAll('.mood-btn').forEach(btn => {
@@ -1043,12 +1026,24 @@
       displayEntries();
     }
 
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
     // Highlight search terms in text
     function highlightText(text, query) {
-      if (!query) return text;
+      if (!query) return escapeHtml(text);
 
-      const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-      return text.replace(regex, '<mark style="background-color: #fff176; padding: 2px 0; border-radius: 2px;">$1</mark>');
+      // Escape the text first
+      const escapedText = escapeHtml(text);
+      const escapedQuery = escapeHtml(query);
+
+      // Then highlight the query
+      const regex = new RegExp(`(${escapedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      return escapedText.replace(regex, '<mark style="background-color: #fff176; padding: 2px 0; border-radius: 2px;">$1</mark>');
     }
 
     // Count words as user types
@@ -1151,7 +1146,7 @@
     }
 
     // Select mood for entry being edited
-    function selectEditMood(mood, entryId) {
+    function selectEditMood(mood, entryId, event) {
       editingMood = mood;
 
       // Update button states
@@ -1320,12 +1315,12 @@
               <div class="entry-mood-selector">
                 <div class="entry-mood-label">Pick your mood</div>
                 <div class="entry-mood-buttons">
-                  <button type="button" class="entry-mood-btn ${editingMood === '😊' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😊', ${entry.id})">😊</button>
-                  <button type="button" class="entry-mood-btn ${editingMood === '🤔' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('🤔', ${entry.id})">🤔</button>
-                  <button type="button" class="entry-mood-btn ${editingMood === '😐' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😐', ${entry.id})">😐</button>
-                  <button type="button" class="entry-mood-btn ${editingMood === '😴' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😴', ${entry.id})">😴</button>
-                  <button type="button" class="entry-mood-btn ${editingMood === '😤' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😤', ${entry.id})">😤</button>
-                  <button type="button" class="entry-mood-btn ${editingMood === '😢' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😢', ${entry.id})">😢</button>
+                  <button type="button" class="entry-mood-btn ${editingMood === '😊' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😊', ${entry.id}, event)">😊</button>
+                  <button type="button" class="entry-mood-btn ${editingMood === '🤔' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('🤔', ${entry.id}, event)">🤔</button>
+                  <button type="button" class="entry-mood-btn ${editingMood === '😐' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😐', ${entry.id}, event)">😐</button>
+                  <button type="button" class="entry-mood-btn ${editingMood === '😴' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😴', ${entry.id}, event)">😴</button>
+                  <button type="button" class="entry-mood-btn ${editingMood === '😤' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😤', ${entry.id}, event)">😤</button>
+                  <button type="button" class="entry-mood-btn ${editingMood === '😢' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😢', ${entry.id}, event)">😢</button>
                 </div>
               </div>
               <textarea
