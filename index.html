@@ -820,75 +820,163 @@
 
     // Calculate current streak
     function calculateStreak() {
-      const entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+       const entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
 
       if (entries.length === 0) {
-        return { streak: 0, hasEntryToday: false, hasEntryYesterday: false };
+           return { streak: 0, hasEntryToday: false, hasEntryYesterday: false };
       }
 
-      // Get all unique dates (YYYY-MM-DD format in local time)
-      const uniqueDates = new Set();
-      entries.forEach(entry => {
-        const date = new Date(entry.timestamp);
-        const dateStr = date.getFullYear() + '-' +
+       // Get all unique dates (YYYY-MM-DD format in local time)
+       const uniqueDates = new Set();
+       entries.forEach(entry => {
+           const date = new Date(entry.timestamp);
+           const dateStr = date.getFullYear() + '-' +
                        String(date.getMonth() + 1).padStart(2, '0') + '-' +
                        String(date.getDate()).padStart(2, '0');
-        uniqueDates.add(dateStr);
+           uniqueDates.add(dateStr);
       });
 
-      // Convert to sorted array (most recent first)
-      const sortedDates = Array.from(uniqueDates).sort().reverse();
+       // Convert to sorted array (most recent first)
+       const sortedDates = Array.from(uniqueDates).sort().reverse();
 
-      // Get today's date string
-      const today = new Date();
-      const todayStr = today.getFullYear() + '-' +
+       // Get today's date string
+       const today = new Date();
+       const todayStr = today.getFullYear() + '-' +
                       String(today.getMonth() + 1).padStart(2, '0') + '-' +
                       String(today.getDate()).padStart(2, '0');
 
-      // Get yesterday's date string
-      const yesterday = new Date(today);
-      yesterday.setDate(yesterday.getDate() - 1);
-      const yesterdayStr = yesterday.getFullYear() + '-' +
+       // Get yesterday's date string
+       const yesterday = new Date(today);
+       yesterday.setDate(yesterday.getDate() - 1);
+       const yesterdayStr = yesterday.getFullYear() + '-' +
                           String(yesterday.getMonth() + 1).padStart(2, '0') + '-' +
                           String(yesterday.getDate()).padStart(2, '0');
 
-      const hasEntryToday = sortedDates.includes(todayStr);
-      const hasEntryYesterday = sortedDates.includes(yesterdayStr);
+       const hasEntryToday = sortedDates.includes(todayStr);
+       const hasEntryYesterday = sortedDates.includes(yesterdayStr);
 
-      // Calculate streak
-      let streak = 0;
-      const startDate = hasEntryToday ? todayStr : yesterdayStr;
+       // Calculate streak
+       let streak = 0;
+       const startDate = hasEntryToday ? todayStr : yesterdayStr;
 
-      // If no entry today or yesterday, streak is broken
-      if (!hasEntryToday && !hasEntryYesterday) {
-        return { streak: 0, hasEntryToday: false, hasEntryYesterday: false };
+       // If no entry today or yesterday, streak is broken
+       if (!hasEntryToday && !hasEntryYesterday) {
+              return { streak: 0, hasEntryToday: false, hasEntryYesterday: false };
       }
 
-      // Count consecutive days
-      let checkDate = new Date(startDate);
+       // Count consecutive days
+       let checkDate = new Date(startDate);
       while (true) {
-        const checkDateStr = checkDate.getFullYear() + '-' +
+           const checkDateStr = checkDate.getFullYear() + '-' +
                             String(checkDate.getMonth() + 1).padStart(2, '0') + '-' +
                             String(checkDate.getDate()).padStart(2, '0');
 
-        if (sortedDates.includes(checkDateStr)) {
-          streak++;
-          checkDate.setDate(checkDate.getDate() - 1);
-        } else {
-          break;
+           if (sortedDates.includes(checkDateStr)) {
+               streak++;
+               checkDate.setDate(checkDate.getDate() - 1);
+           } else {
+               break;
         }
       }
 
-      return { streak, hasEntryToday, hasEntryYesterday };
+       return { streak, hasEntryToday, hasEntryYesterday };
     }
+
+    // Helpers and robust streak calculation
+    function formatDateYMD(date) {
+ // Return YYYY-MM-DD for a local Date object
+ const y = date.getFullYear();
+     const m = String(date.getMonth() + 1).padStart(2, '0');
+     const d = String(date.getDate()).padStart(2, '0');
+     return `${y}-${m}-${d}`;
+    }
+
+    function parseYMDToLocalDate(ymd) {
+     // ymd expected 'YYYY-MM-DD' — create a local Date at midday to avoid UTC parsing quirks
+     const parts = String(ymd).split('-').map(Number);
+     if (parts.length !== 3 || parts.some(isNaN)) return null;
+     const [y, m, d] = parts;
+     return new Date(y, m - 1, d, 12, 0, 0, 0);
+    }
+    
+function safeParseEntries() {
+   try {
+       const raw = localStorage.getItem('diaryEntries');
+        if (!raw) return [];
+       const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        console.warn('Failed to parse diaryEntries from localStorage:', e);
+        return [];
+      }
+}
+    function calculateStreak() {
+       const entries = safeParseEntries();
+       if (entries.length === 0) {
+   return { streak: 0, hasEntryToday: false, hasEntryYesterday: false };
+          }
+
+       // Collect unique local-date strings (YYYY-MM-DD)
+       const uniqueDates = new Set();
+       for (const entry of entries) {
+            if (!entry || !entry.timestamp) continue;
+            const date = new Date(entry.timestamp);
+            if (isNaN(date.getTime())) continue;
+            uniqueDates.add(formatDateYMD(date));
+ }
+       if (uniqueDates.size === 0) {
+            return { streak: 0, hasEntryToday: false, hasEntryYesterday: false };
+          }
+      
+ const today = new Date();
+       const todayStr = formatDateYMD(today);
+       const yesterday = new Date(today);
+       yesterday.setDate(yesterday.getDate() - 1);
+       const yesterdayStr = formatDateYMD(yesterday);
+       const hasEntryToday = uniqueDates.has(todayStr);
+       const hasEntryYesterday = uniqueDates.has(yesterdayStr);
+
+      
+       // If neither today nor yesterday has an entry, streak is broken
+          if (!hasEntryToday && !hasEntryYesterday) {
+               return { streak: 0, hasEntryToday: false, hasEntryYesterday: false };
+             }
+
+       // Start counting from today (if present) otherwise yesterday
+       let streak = 0;
+       const startDateStr = hasEntryToday ? todayStr : yesterdayStr;
+       let checkDate = parseYMDToLocalDate(startDateStr);
+       if (!checkDate) return { streak: 0, hasEntryToday, hasEntryYesterday };
+       while (true) {
+            const checkDateStr = formatDateYMD(checkDate);
+            if (uniqueDates.has(checkDateStr)) {
+                   streak++;
+                   checkDate.setDate(checkDate.getDate() - 1);
+                 } else {
+                   break;
+                 }
+       }
+       return { streak, hasEntryToday, hasEntryYesterday };
+    }
+      
 
     // Update streak display
     function updateStreakDisplay(animate = false) {
-      const { streak, hasEntryToday, hasEntryYesterday } = calculateStreak();
-      const messageEl = document.getElementById('streakMessage');
-      const counterEl = document.getElementById('streakCounter');
+       const { streak, hasEntryToday, hasEntryYesterday } = calculateStreak();
+       const messageEl = document.getElementById('streakMessage');
+       const counterEl = document.getElementById('streakCounter');
 
-      let message = '';
+    
+       let message = '';
+
+      function updateStreakDisplay(animate = false) {
+         const { streak, hasEntryToday, hasEntryYesterday } = calculateStreak();
+         const messageEl = document.getElementById('streakMessage');
+         const counterEl = document.getElementById('streakCounter');
+         const emojiEl = document.querySelector('.streak-emoji');
+         if (!messageEl || !counterEl) return;
+         let message = '';
+        
 
       if (streak === 0) {
         // No entries ever
