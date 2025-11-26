@@ -1,0 +1,101 @@
+version: 1
+enabled: true
+agent:
+  mode: autonomous
+  permissions:
+    - read
+    - write
+    - issues
+    - pull_requests
+triggers:
+  - mentions
+  - issues
+  - pull_requests
+response_time: fast
+```
+
+4. Click **"Commit new file"**
+
+---
+
+## **Let's Create a BETTER Test Issue**
+
+Your current issue is too vague. Let's create a clearer one:
+
+### **Create New Issue:**
+
+1. Go to **Issues** tab
+2. Click **"New issue"**
+3. **Title:** `Add streak counter feature`
+4. **Description:**
+```
+@claude Can you add a streak counter to our diary app?
+
+Requirements:
+- Track consecutive days the user writes entries
+- Display current streak number
+- Display longest streak achieved
+- Show "🔥" fire emoji next to streak count
+
+The streak counter should appear above the writing section in the HTML.
+Use localStorage to persist the streak data.
+
+Current code is in index.html - please review and add this feature.
+```
+
+5. Click **"Submit new issue"**
+
+---
+
+## **Why Claude Hasn't Responded Yet:**
+
+**Possible reasons:**
+
+1. ❌ **You didn't click "Save"** in settings (most likely!)
+2. ❌ **Agent mode not enabled** in the issue
+3. ❌ **First issue was too vague** (about italics text)
+4. ⏱️ **Takes 2-10 minutes** for first response (especially first time)
+5. ❌ **Missing `.github/claude.yml`** configuration file
+
+---
+
+## **Do This Right Now (In Order):**
+
+### **1. Save Claude Settings**
+- Go to: `github.com/settings/installations/96589183`
+- Click **"Save"** button (bottom left)
+
+### **2. Create `.github/claude.yml` file**
+- In your repo: Add file → Create new file
+- Name: `.github/claude.yml`
+- Paste the YAML config I gave you above
+- Commit
+
+### **3. Enable Agent Mode**
+- Go back to Issue #3
+- On right side, click **"Code with agent mode"** dropdown
+- Enable it
+
+### **4. Create a NEW, clearer issue**
+- Use the template I gave you above
+- About the streak counter feature
+- Clear requirements
+
+### **5. Wait 5-10 minutes**
+- Claude should respond this time!
+
+---
+
+## **Alternative: Try in the Current Issue**
+
+Or just add a NEW COMMENT to Issue #3:
+
+**Comment:**
+```
+@claude Let's try something simpler. Can you:
+
+1. Read the index.html file in this repo
+2. Tell me what the current word limit is (should be 99)
+3. Confirm you can see the code
+
+Just respond with what you found. Thanks!
