@@ -335,7 +335,7 @@
 
       <textarea id="diaryEntry" placeholder="How was your day? What happened? How did you feel?"></textarea>
       <div class="word-count" id="wordCount">0 / 99 words</div>
-      <button class="save-btn" onclick="saveEntry()">💾 Save Entry</button>
+      <button class="save-btn" onclick="saveEntry()">📌 Keep it</button>
     </div>
 
     <div class="search-section">
@@ -344,7 +344,7 @@
         <input
           type="text"
           id="searchInput"
-          placeholder="Search your journal entries..."
+          placeholder="Find a memory..."
           oninput="handleSearch()"
         />
         <button class="clear-search" id="clearSearch" onclick="clearSearch()">✕</button>
@@ -527,7 +527,7 @@
       if (allEntries.length === 0) {
         container.innerHTML = `
           <div class="no-entries">
-            No entries yet. Start writing!
+            Your first 99 words start here.
           </div>
         `;
         return;
@@ -536,7 +536,7 @@
       if (entries.length === 0 && searchQuery) {
         container.innerHTML = `
           <div class="entries-header">
-            <h2>📖 Your Journal</h2>
+            <h2>📅 Your Days</h2>
           </div>
           <div class="no-entries">
             No entries match your search. Try different keywords!
@@ -547,7 +547,7 @@
 
       container.innerHTML = `
         <div class="entries-header">
-          <h2>📖 Your Journal</h2>
+          <h2>📅 Your Days</h2>
         </div>
       ` + entries.map(entry => `
         <div class="entry">
