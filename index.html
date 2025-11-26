@@ -639,11 +639,9 @@
 
     /* Insights view */
     .insights-view {
-      background: white;
-      padding: 60px 40px;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
     .insights-placeholder {
@@ -655,6 +653,231 @@
       font-size: 20px;
       color: #666;
       font-weight: 500;
+    }
+
+    /* Time filter */
+    .time-filter {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .time-filter-btn {
+      padding: 12px 24px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      background: white;
+      color: #666;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .time-filter-btn:hover {
+      border-color: #667eea;
+      color: #667eea;
+      transform: translateY(-2px);
+    }
+
+    .time-filter-btn.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Empty states */
+    .insights-empty {
+      background: white;
+      padding: 60px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .insights-empty-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+
+    .insights-empty-text {
+      font-size: 18px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Insight cards */
+    .insight-card {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .insight-card-header {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .insight-card-content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Mood bar chart */
+    .mood-bar-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mood-bar-label {
+      min-width: 120px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .mood-bar-container {
+      flex: 1;
+      height: 32px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .mood-bar-fill {
+      height: 100%;
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .mood-bar-percentage {
+      min-width: 45px;
+      text-align: right;
+      font-size: 14px;
+      font-weight: 600;
+      color: #666;
+    }
+
+    /* Mood colors */
+    .mood-happy { background: #F59E0B; }
+    .mood-thoughtful { background: #3B82F6; }
+    .mood-neutral { background: #6B7280; }
+    .mood-tired { background: #8B5CF6; }
+    .mood-angry { background: #EF4444; }
+    .mood-sad { background: #06B6D4; }
+
+    /* Insight footer */
+    .insight-footer {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px solid #f5f5f5;
+      font-size: 15px;
+      color: #666;
+      font-weight: 500;
+    }
+
+    /* Pattern stats */
+    .pattern-stat {
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      font-size: 15px;
+      color: #333;
+    }
+
+    .pattern-stat strong {
+      color: #667eea;
+      font-weight: 700;
+    }
+
+    .pattern-stat-label {
+      color: #999;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    /* Word count chart */
+    .word-count-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .word-count-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .word-count-mood {
+      min-width: 100px;
+      font-size: 14px;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .word-count-bar {
+      flex: 1;
+      height: 24px;
+      background: #f5f5f5;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .word-count-bar-fill {
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 8px;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      .mood-bar-label {
+        min-width: 90px;
+        font-size: 14px;
+      }
+
+      .insight-card {
+        padding: 20px;
+      }
+
+      .time-filter {
+        padding: 15px;
+      }
     }
 
     /* Streak Counter */
@@ -783,9 +1006,8 @@
 
     <!-- Insights View -->
     <div class="view-section" id="insightsView">
-      <div class="insights-view">
-        <div class="insights-placeholder">📊</div>
-        <div class="insights-text">Mood insights coming soon...</div>
+      <div class="insights-view" id="insightsContent">
+        <!-- Dynamic insights content will be inserted here -->
       </div>
     </div>
 
@@ -799,6 +1021,7 @@
     let editingEntryId = null;
     let editingMood = null;
     let currentView = 'capture';
+    let currentTimeFilter = 'all'; // 'week', 'month', 'all'
 
     // Calculate current streak
     function calculateStreak() {
@@ -953,6 +1176,8 @@
         document.getElementById('captureView').classList.add('active');
       } else if (viewName === 'insights') {
         document.getElementById('insightsView').classList.add('active');
+        // Refresh insights when switching to insights view
+        renderInsights();
       }
 
       // Update nav items
@@ -1124,6 +1349,9 @@
       // Update streak counter with animation
       updateStreakDisplay(true);
 
+      // Refresh insights
+      renderInsights();
+
       alert('✅ Entry saved successfully!');
     }
 
@@ -1219,6 +1447,9 @@
       // Update streak counter (no animation for edits)
       updateStreakDisplay();
 
+      // Refresh insights
+      renderInsights();
+
       alert('✅ Entry updated successfully!');
     }
 
@@ -1243,6 +1474,9 @@
 
       // Update streak counter (deleting might break the streak)
       updateStreakDisplay();
+
+      // Refresh insights
+      renderInsights();
 
       alert('🗑️ Entry deleted!');
     }
@@ -1356,9 +1590,296 @@
       }).join('');
     }
 
+    // Insights Functions
+
+    // Filter entries by time period
+    function filterEntriesByTime(entries, filter) {
+      if (filter === 'all') return entries;
+
+      const now = new Date();
+      const cutoffDate = new Date();
+
+      if (filter === 'week') {
+        cutoffDate.setDate(now.getDate() - 7);
+      } else if (filter === 'month') {
+        cutoffDate.setDate(now.getDate() - 30);
+      }
+
+      return entries.filter(entry => {
+        const entryDate = new Date(entry.timestamp);
+        return entryDate >= cutoffDate;
+      });
+    }
+
+    // Get mood name from emoji
+    function getMoodName(emoji) {
+      return moodNames[emoji] || 'Unknown';
+    }
+
+    // Get mood CSS class from emoji
+    function getMoodClass(emoji) {
+      const classMap = {
+        '😊': 'mood-happy',
+        '🤔': 'mood-thoughtful',
+        '😐': 'mood-neutral',
+        '😴': 'mood-tired',
+        '😤': 'mood-angry',
+        '😢': 'mood-sad'
+      };
+      return classMap[emoji] || 'mood-neutral';
+    }
+
+    // Calculate mood breakdown
+    function calculateMoodBreakdown(entries) {
+      const moodCounts = {};
+
+      entries.forEach(entry => {
+        if (entry.mood) {
+          moodCounts[entry.mood] = (moodCounts[entry.mood] || 0) + 1;
+        }
+      });
+
+      // Convert to array and sort by count
+      const moodStats = Object.keys(moodCounts).map(mood => ({
+        emoji: mood,
+        name: getMoodName(mood),
+        count: moodCounts[mood],
+        percentage: Math.round((moodCounts[mood] / entries.length) * 100)
+      })).sort((a, b) => b.count - a.count);
+
+      return moodStats;
+    }
+
+    // Calculate word usage patterns
+    function calculateWordPatterns(entries) {
+      if (entries.length === 0) return null;
+
+      const totalWords = entries.reduce((sum, entry) => sum + entry.words, 0);
+      const avgWords = Math.round(totalWords / entries.length);
+
+      // Find longest and shortest entries
+      let longest = entries[0];
+      let shortest = entries[0];
+
+      entries.forEach(entry => {
+        if (entry.words > longest.words) longest = entry;
+        if (entry.words < shortest.words) shortest = entry;
+      });
+
+      // Calculate average words per mood
+      const moodWordCounts = {};
+      const moodEntryCounts = {};
+
+      entries.forEach(entry => {
+        if (entry.mood) {
+          moodWordCounts[entry.mood] = (moodWordCounts[entry.mood] || 0) + entry.words;
+          moodEntryCounts[entry.mood] = (moodEntryCounts[entry.mood] || 0) + 1;
+        }
+      });
+
+      const moodAverages = Object.keys(moodWordCounts).map(mood => ({
+        emoji: mood,
+        name: getMoodName(mood),
+        avg: Math.round(moodWordCounts[mood] / moodEntryCounts[mood])
+      })).sort((a, b) => b.avg - a.avg);
+
+      // Find mood with most/least words
+      let moodInsight = null;
+      if (moodAverages.length > 0) {
+        const maxMood = moodAverages[0];
+        const minMood = moodAverages[moodAverages.length - 1];
+
+        if (maxMood.avg > avgWords) {
+          moodInsight = {
+            mood: maxMood.emoji,
+            name: maxMood.name,
+            comparison: 'more',
+            avg: maxMood.avg
+          };
+        } else if (minMood.avg < avgWords) {
+          moodInsight = {
+            mood: minMood.emoji,
+            name: minMood.name,
+            comparison: 'less',
+            avg: minMood.avg
+          };
+        }
+      }
+
+      // Format longest entry date
+      const longestDate = new Date(longest.timestamp).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+
+      // Format shortest entry date
+      const shortestDate = new Date(shortest.timestamp).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+
+      return {
+        avgWords,
+        longest: { words: longest.words, date: longestDate },
+        shortest: { words: shortest.words, date: shortestDate },
+        moodAverages,
+        moodInsight
+      };
+    }
+
+    // Set time filter
+    function setTimeFilter(filter) {
+      currentTimeFilter = filter;
+      renderInsights();
+    }
+
+    // Render insights
+    function renderInsights() {
+      const container = document.getElementById('insightsContent');
+      const allEntries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+      const filteredEntries = filterEntriesByTime(allEntries, currentTimeFilter);
+
+      // Empty states
+      if (filteredEntries.length === 0) {
+        container.innerHTML = `
+          <div class="insights-empty">
+            <div class="insights-empty-icon">✨</div>
+            <div class="insights-empty-text">Your insights will appear here. Start with your first 99 words! ✨</div>
+          </div>
+        `;
+        return;
+      }
+
+      if (filteredEntries.length <= 2) {
+        container.innerHTML = `
+          <div class="insights-empty">
+            <div class="insights-empty-icon">📝</div>
+            <div class="insights-empty-text">A few more entries and we'll spot some patterns... 📝</div>
+          </div>
+        `;
+        return;
+      }
+
+      // Calculate insights
+      const moodStats = calculateMoodBreakdown(filteredEntries);
+      const wordPatterns = calculateWordPatterns(filteredEntries);
+
+      // Build time filter buttons
+      const timeFilterHTML = `
+        <div class="time-filter">
+          <button class="time-filter-btn ${currentTimeFilter === 'week' ? 'active' : ''}" onclick="setTimeFilter('week')">This Week</button>
+          <button class="time-filter-btn ${currentTimeFilter === 'month' ? 'active' : ''}" onclick="setTimeFilter('month')">This Month</button>
+          <button class="time-filter-btn ${currentTimeFilter === 'all' ? 'active' : ''}" onclick="setTimeFilter('all')">All Time</button>
+        </div>
+      `;
+
+      // Build mood breakdown card
+      let moodBreakdownHTML = `
+        <div class="insight-card">
+          <div class="insight-card-header">How You've Been Feeling</div>
+          <div class="insight-card-content">
+      `;
+
+      moodStats.forEach(mood => {
+        moodBreakdownHTML += `
+          <div class="mood-bar-item">
+            <div class="mood-bar-label">${mood.emoji} ${mood.name}</div>
+            <div class="mood-bar-container">
+              <div class="mood-bar-fill ${getMoodClass(mood.emoji)}" style="width: ${mood.percentage}%">
+                ${mood.percentage >= 15 ? mood.percentage + '%' : ''}
+              </div>
+            </div>
+            <div class="mood-bar-percentage">${mood.percentage}%</div>
+          </div>
+        `;
+      });
+
+      // Add footer with most common mood
+      const topMood = moodStats[0];
+      moodBreakdownHTML += `
+          </div>
+          <div class="insight-footer">
+            Your most common mood is ${topMood.emoji} ${topMood.name}
+          </div>
+        </div>
+      `;
+
+      // Build word patterns card
+      let wordPatternsHTML = `
+        <div class="insight-card">
+          <div class="insight-card-header">Your 99 Pattern ✍️</div>
+          <div class="insight-card-content">
+      `;
+
+      wordPatternsHTML += `
+        <div class="pattern-stat">
+          On average, you use <strong>${wordPatterns.avgWords}</strong> of your 99 words
+        </div>
+        <div class="pattern-stat">
+          <strong>Longest entry:</strong> ${wordPatterns.longest.words} words
+          <div class="pattern-stat-label">${wordPatterns.longest.date}</div>
+        </div>
+        <div class="pattern-stat">
+          <strong>Shortest entry:</strong> ${wordPatterns.shortest.words} words
+          <div class="pattern-stat-label">${wordPatterns.shortest.date}</div>
+        </div>
+      `;
+
+      // Add mood word count chart
+      if (wordPatterns.moodAverages.length > 0) {
+        const maxAvg = Math.max(...wordPatterns.moodAverages.map(m => m.avg));
+
+        wordPatternsHTML += `
+          <div style="margin-top: 20px;">
+            <div style="font-size: 14px; font-weight: 600; color: #666; margin-bottom: 10px;">Average words by mood:</div>
+            <div class="word-count-chart">
+        `;
+
+        wordPatterns.moodAverages.forEach(mood => {
+          const percentage = (mood.avg / maxAvg) * 100;
+          wordPatternsHTML += `
+            <div class="word-count-item">
+              <div class="word-count-mood">${mood.emoji} ${mood.name}</div>
+              <div class="word-count-bar">
+                <div class="word-count-bar-fill" style="width: ${percentage}%">
+                  ${mood.avg}
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+        wordPatternsHTML += `
+            </div>
+          </div>
+        `;
+      }
+
+      // Add mood insight footer
+      if (wordPatterns.moodInsight) {
+        const insight = wordPatterns.moodInsight;
+        wordPatternsHTML += `
+          <div class="insight-footer">
+            When ${insight.mood} ${insight.name}, you write ${insight.comparison} — avg ${insight.avg} words
+          </div>
+        `;
+      }
+
+      wordPatternsHTML += `
+          </div>
+        </div>
+      `;
+
+      // Combine all HTML
+      container.innerHTML = timeFilterHTML + moodBreakdownHTML + wordPatternsHTML;
+    }
+
     // Load entries when page loads
     displayEntries();
     updateStreakDisplay();
+    renderInsights();
   </script>
 </body>
 </html>
