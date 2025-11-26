@@ -639,11 +639,7 @@
 
     /* Insights view */
     .insights-view {
-      background: white;
-      padding: 60px 40px;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-      text-align: center;
+      padding-bottom: 40px;
     }
 
     .insights-placeholder {
@@ -655,6 +651,282 @@
       font-size: 20px;
       color: #666;
       font-weight: 500;
+    }
+
+    .insights-empty {
+      background: white;
+      padding: 60px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .insights-empty-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+
+    .insights-empty-text {
+      font-size: 18px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Time filter */
+    .time-filter {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 10px 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      background: white;
+      color: #666;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      border-color: #667eea;
+      color: #667eea;
+    }
+
+    .filter-btn.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-color: transparent;
+    }
+
+    /* Insights sections */
+    .insights-section {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .insights-section h3 {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .summary-text {
+      font-size: 18px;
+      color: #667eea;
+      line-height: 1.7;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .mood-bar-container {
+      margin-bottom: 12px;
+    }
+
+    .mood-bar-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 15px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .mood-bar-emoji {
+      font-size: 20px;
+    }
+
+    .mood-bar-wrapper {
+      background: #f0f0f0;
+      border-radius: 8px;
+      height: 32px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .mood-bar {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      transition: width 0.5s ease;
+      border-radius: 8px;
+    }
+
+    .mood-footer {
+      margin-top: 16px;
+      font-size: 15px;
+      color: #666;
+      font-style: italic;
+      text-align: center;
+    }
+
+    .insight-text {
+      font-size: 15px;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    .insight-highlight {
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .word-bar-container {
+      margin-top: 20px;
+      padding: 16px;
+      background: #f8f8f8;
+      border-radius: 12px;
+    }
+
+    .word-bar-item {
+      margin-bottom: 12px;
+    }
+
+    .word-bar-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .word-bar-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .word-bar-mood {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .word-bar-value {
+      color: #666;
+      font-size: 13px;
+    }
+
+    .word-bar-wrapper {
+      background: #e0e0e0;
+      border-radius: 6px;
+      height: 20px;
+      overflow: hidden;
+    }
+
+    .word-bar-fill {
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: width 0.5s ease;
+      border-radius: 6px;
+    }
+
+    .week-chart {
+      display: flex;
+      gap: 8px;
+      justify-content: space-between;
+      margin-top: 20px;
+      padding: 20px 16px;
+      background: #f8f8f8;
+      border-radius: 12px;
+    }
+
+    .week-day {
+      flex: 1;
+      text-align: center;
+    }
+
+    .week-day-label {
+      font-size: 12px;
+      color: #666;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .week-day-bar {
+      background: #e0e0e0;
+      border-radius: 6px;
+      height: 80px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      position: relative;
+    }
+
+    .week-day-fill {
+      width: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 6px;
+      transition: height 0.5s ease;
+      position: relative;
+    }
+
+    .week-day-count {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    .kind-message {
+      background: #f0f4ff;
+      border: 2px solid #d0dbff;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-top: 16px;
+      font-size: 15px;
+      color: #667eea;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    @media (max-width: 500px) {
+      .insights-section {
+        padding: 24px 20px;
+      }
+
+      .insights-section h3 {
+        font-size: 18px;
+      }
+
+      .summary-text {
+        font-size: 16px;
+      }
+
+      .week-chart {
+        padding: 16px 12px;
+      }
+
+      .week-day-label {
+        font-size: 11px;
+      }
+
+      .filter-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+      }
     }
 
     /* Streak Counter */
@@ -783,9 +1055,8 @@
 
     <!-- Insights View -->
     <div class="view-section" id="insightsView">
-      <div class="insights-view">
-        <div class="insights-placeholder">📊</div>
-        <div class="insights-text">Mood insights coming soon...</div>
+      <div class="insights-view" id="insightsContainer">
+        <!-- Content will be dynamically generated -->
       </div>
     </div>
 
@@ -953,6 +1224,8 @@
         document.getElementById('captureView').classList.add('active');
       } else if (viewName === 'insights') {
         document.getElementById('insightsView').classList.add('active');
+        // Render insights when switching to insights tab
+        renderInsights();
       }
 
       // Update nav items
@@ -1354,6 +1627,571 @@
           `;
         }
       }).join('');
+    }
+
+    // Insights functionality
+    let currentTimeFilter = 'all'; // 'week', 'month', 'all'
+
+    // Mood colors
+    const moodColors = {
+      '😊': '#F59E0B', // Happy - warm yellow/gold
+      '🤔': '#3B82F6', // Thoughtful - blue
+      '😐': '#6B7280', // Neutral - gray
+      '😴': '#8B5CF6', // Tired - purple
+      '😤': '#EF4444', // Angry - red/orange
+      '😢': '#06B6D4'  // Sad - light blue
+    };
+
+    // Mood scores for positivity calculation
+    const moodScores = {
+      '😊': 5,
+      '🤔': 4,
+      '😐': 3,
+      '😴': 2,
+      '😤': 1,
+      '😢': 1
+    };
+
+    // Filter entries by time period
+    function filterEntriesByTime(entries, filter) {
+      if (filter === 'all') return entries;
+
+      const now = new Date();
+      const cutoffDate = new Date();
+
+      if (filter === 'week') {
+        cutoffDate.setDate(now.getDate() - 7);
+      } else if (filter === 'month') {
+        cutoffDate.setDate(now.getDate() - 30);
+      }
+
+      return entries.filter(entry => new Date(entry.timestamp) >= cutoffDate);
+    }
+
+    // Set time filter
+    function setTimeFilter(filter) {
+      currentTimeFilter = filter;
+      renderInsights();
+    }
+
+    // Generate personalized summary sentence
+    function generateSummary(entries) {
+      if (entries.length === 0) return null;
+
+      // Count moods
+      const moodCounts = {};
+      entries.forEach(entry => {
+        moodCounts[entry.mood] = (moodCounts[entry.mood] || 0) + 1;
+      });
+
+      // Find most common mood
+      let mostCommonMood = null;
+      let maxCount = 0;
+      for (const [mood, count] of Object.entries(moodCounts)) {
+        if (count > maxCount) {
+          maxCount = count;
+          mostCommonMood = mood;
+        }
+      }
+
+      // Analyze day patterns
+      const dayCounts = {};
+      entries.forEach(entry => {
+        const day = new Date(entry.timestamp).toLocaleDateString('en-US', { weekday: 'long' });
+        dayCounts[day] = (dayCounts[day] || 0) + 1;
+      });
+
+      let mostActiveDay = null;
+      let maxDayCount = 0;
+      for (const [day, count] of Object.entries(dayCounts)) {
+        if (count > maxDayCount) {
+          maxDayCount = count;
+          mostActiveDay = day;
+        }
+      }
+
+      // Generate summary based on patterns
+      const summaries = [];
+
+      // Mood-based summaries
+      const moodPercentage = Math.round((maxCount / entries.length) * 100);
+      const timeframe = currentTimeFilter === 'week' ? 'this week' : currentTimeFilter === 'month' ? 'this month' : 'overall';
+
+      if (mostCommonMood === '😊' && moodPercentage >= 40) {
+        summaries.push(`You've been feeling mostly ${mostCommonMood} Happy ${timeframe}, especially on ${mostActiveDay}s!`);
+      } else if (mostCommonMood === '🤔' && moodPercentage >= 35) {
+        summaries.push(`Looks like a reflective ${currentTimeFilter === 'week' ? 'week' : 'period'} — you've been ${mostCommonMood} Thoughtful more than usual.`);
+      } else if (mostCommonMood === '😴' && moodPercentage >= 30) {
+        summaries.push(`${currentTimeFilter === 'week' ? 'Tough week?' : 'Feeling tired lately?'} You logged ${mostCommonMood} Tired a few times. Hope you're getting rest!`);
+      } else if (mostCommonMood === '😢' && moodPercentage >= 25) {
+        summaries.push(`It's been a heavy ${currentTimeFilter === 'week' ? 'week' : 'time'} — remember, it's okay to feel ${mostCommonMood} Sad.`);
+      } else if (mostCommonMood === '😤' && moodPercentage >= 25) {
+        summaries.push(`You've been ${mostCommonMood} Angry more than usual — journaling is a great outlet!`);
+      } else if (mostActiveDay && maxDayCount >= 3) {
+        summaries.push(`You write the most on ${mostActiveDay}s — that's your reflection day!`);
+      } else {
+        summaries.push(`You've captured ${entries.length} moment${entries.length !== 1 ? 's' : ''} ${timeframe} — nice work! 📝`);
+      }
+
+      return summaries[0];
+    }
+
+    // Calculate mood breakdown
+    function calculateMoodBreakdown(entries) {
+      const moodCounts = {};
+      entries.forEach(entry => {
+        moodCounts[entry.mood] = (moodCounts[entry.mood] || 0) + 1;
+      });
+
+      // Convert to array and sort by count
+      const breakdown = Object.entries(moodCounts).map(([mood, count]) => ({
+        mood,
+        name: moodNames[mood],
+        count,
+        percentage: Math.round((count / entries.length) * 100)
+      })).sort((a, b) => b.count - a.count);
+
+      return breakdown;
+    }
+
+    // Analyze word patterns
+    function analyzeWordPatterns(entries) {
+      if (entries.length === 0) return null;
+
+      const avgWords = Math.round(entries.reduce((sum, e) => sum + e.words, 0) / entries.length);
+      const longest = entries.reduce((max, e) => e.words > max.words ? e : max, entries[0]);
+      const shortest = entries.reduce((min, e) => e.words < min.words ? e : min, entries[0]);
+
+      // Calculate average words per mood
+      const moodWords = {};
+      const moodCounts = {};
+      entries.forEach(entry => {
+        if (!moodWords[entry.mood]) {
+          moodWords[entry.mood] = 0;
+          moodCounts[entry.mood] = 0;
+        }
+        moodWords[entry.mood] += entry.words;
+        moodCounts[entry.mood]++;
+      });
+
+      const moodAverages = Object.entries(moodWords).map(([mood, total]) => ({
+        mood,
+        name: moodNames[mood],
+        avg: Math.round(total / moodCounts[mood]),
+        count: moodCounts[mood]
+      })).filter(m => m.count >= 3).sort((a, b) => b.avg - a.avg);
+
+      return { avgWords, longest, shortest, moodAverages };
+    }
+
+    // Analyze week patterns
+    function analyzeWeekPatterns(entries) {
+      if (entries.length === 0) return null;
+
+      const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const dayCounts = {};
+      const dayMoods = {};
+
+      dayNames.forEach(day => {
+        dayCounts[day] = 0;
+        dayMoods[day] = {};
+      });
+
+      entries.forEach(entry => {
+        const day = dayNames[new Date(entry.timestamp).getDay()];
+        dayCounts[day]++;
+        dayMoods[day][entry.mood] = (dayMoods[day][entry.mood] || 0) + 1;
+      });
+
+      // Find most active day
+      let mostActiveDay = null;
+      let maxCount = 0;
+      for (const [day, count] of Object.entries(dayCounts)) {
+        if (count > maxCount) {
+          maxCount = count;
+          mostActiveDay = day;
+        }
+      }
+
+      // Find happiest day (most Happy moods)
+      let happiestDay = null;
+      let maxHappyCount = 0;
+      for (const [day, moods] of Object.entries(dayMoods)) {
+        const happyCount = moods['😊'] || 0;
+        if (happyCount > maxHappyCount) {
+          maxHappyCount = happyCount;
+          happiestDay = day;
+        }
+      }
+
+      // Find toughest day (most Angry/Sad moods)
+      let toughestDay = null;
+      let maxToughCount = 0;
+      for (const [day, moods] of Object.entries(dayMoods)) {
+        const toughCount = (moods['😤'] || 0) + (moods['😢'] || 0);
+        if (toughCount > maxToughCount && toughCount >= 2) {
+          maxToughCount = toughCount;
+          toughestDay = day;
+        }
+      }
+
+      return {
+        dayCounts,
+        mostActiveDay,
+        happiestDay: maxHappyCount >= 2 ? happiestDay : null,
+        toughestDay
+      };
+    }
+
+    // Analyze time of day patterns
+    function analyzeTimePatterns(entries) {
+      if (entries.length === 0) return null;
+
+      const timeBuckets = {
+        'Morning': 0,    // 5am - 12pm
+        'Afternoon': 0,  // 12pm - 5pm
+        'Evening': 0,    // 5pm - 9pm
+        'Night': 0       // 9pm - 5am
+      };
+
+      const timeMoods = {
+        'Morning': {},
+        'Afternoon': {},
+        'Evening': {},
+        'Night': {}
+      };
+
+      entries.forEach(entry => {
+        const hour = new Date(entry.timestamp).getHours();
+        let bucket;
+
+        if (hour >= 5 && hour < 12) bucket = 'Morning';
+        else if (hour >= 12 && hour < 17) bucket = 'Afternoon';
+        else if (hour >= 17 && hour < 21) bucket = 'Evening';
+        else bucket = 'Night';
+
+        timeBuckets[bucket]++;
+        timeMoods[bucket][entry.mood] = (timeMoods[bucket][entry.mood] || 0) + 1;
+      });
+
+      // Find most active time
+      let mostActiveTime = null;
+      let maxCount = 0;
+      for (const [time, count] of Object.entries(timeBuckets)) {
+        if (count > maxCount) {
+          maxCount = count;
+          mostActiveTime = time;
+        }
+      }
+
+      // Find dominant mood for that time
+      let dominantMood = null;
+      if (mostActiveTime) {
+        let maxMoodCount = 0;
+        for (const [mood, count] of Object.entries(timeMoods[mostActiveTime])) {
+          if (count > maxMoodCount) {
+            maxMoodCount = count;
+            dominantMood = mood;
+          }
+        }
+      }
+
+      return {
+        mostActiveTime,
+        dominantMood: maxCount >= 3 ? dominantMood : null,
+        timeBuckets
+      };
+    }
+
+    // Analyze streak impact on mood
+    function analyzeStreakImpact(entries) {
+      if (entries.length < 5) return null;
+
+      // Get streak dates
+      const { streak } = calculateStreak();
+      if (streak === 0) return null;
+
+      const streakDates = new Set();
+      const today = new Date();
+
+      for (let i = 0; i < streak; i++) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i);
+        const dateStr = date.getFullYear() + '-' +
+                       String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                       String(date.getDate()).padStart(2, '0');
+        streakDates.add(dateStr);
+      }
+
+      // Calculate average mood score for streak days vs non-streak days
+      let streakMoodSum = 0;
+      let streakCount = 0;
+      let nonStreakMoodSum = 0;
+      let nonStreakCount = 0;
+
+      entries.forEach(entry => {
+        const date = new Date(entry.timestamp);
+        const dateStr = date.getFullYear() + '-' +
+                       String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                       String(date.getDate()).padStart(2, '0');
+
+        const score = moodScores[entry.mood] || 3;
+
+        if (streakDates.has(dateStr)) {
+          streakMoodSum += score;
+          streakCount++;
+        } else {
+          nonStreakMoodSum += score;
+          nonStreakCount++;
+        }
+      });
+
+      if (streakCount === 0 || nonStreakCount === 0) return null;
+
+      const streakAvg = streakMoodSum / streakCount;
+      const nonStreakAvg = nonStreakMoodSum / nonStreakCount;
+      const improvement = Math.round(((streakAvg - nonStreakAvg) / nonStreakAvg) * 100);
+
+      return {
+        improvement,
+        isPositive: improvement > 5
+      };
+    }
+
+    // Format date nicely
+    function formatNiceDate(timestamp) {
+      const date = new Date(timestamp);
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    // Render insights dashboard
+    function renderInsights() {
+      const allEntries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+      const filteredEntries = filterEntriesByTime(allEntries, currentTimeFilter);
+      const container = document.getElementById('insightsContainer');
+
+      // Empty state
+      if (allEntries.length === 0) {
+        container.innerHTML = `
+          <div class="insights-empty">
+            <div class="insights-empty-icon">✨</div>
+            <div class="insights-empty-text">Your insights will appear here. Start with your first 99 words!</div>
+          </div>
+        `;
+        return;
+      }
+
+      if (allEntries.length <= 2) {
+        container.innerHTML = `
+          <div class="insights-empty">
+            <div class="insights-empty-icon">📝</div>
+            <div class="insights-empty-text">A few more entries and we'll spot some patterns... keep going!</div>
+          </div>
+        `;
+        return;
+      }
+
+      if (allEntries.length <= 4) {
+        container.innerHTML = `
+          <div class="insights-empty">
+            <div class="insights-empty-icon">🔓</div>
+            <div class="insights-empty-text">Patterns emerging! Write a couple more to unlock deeper insights</div>
+          </div>
+        `;
+        return;
+      }
+
+      // Check if filtered entries are empty
+      if (filteredEntries.length === 0) {
+        container.innerHTML = `
+          <div class="time-filter">
+            <button class="filter-btn ${currentTimeFilter === 'week' ? 'active' : ''}" onclick="setTimeFilter('week')">This Week</button>
+            <button class="filter-btn ${currentTimeFilter === 'month' ? 'active' : ''}" onclick="setTimeFilter('month')">This Month</button>
+            <button class="filter-btn ${currentTimeFilter === 'all' ? 'active' : ''}" onclick="setTimeFilter('all')">All Time</button>
+          </div>
+          <div class="insights-empty">
+            <div class="insights-empty-icon">📅</div>
+            <div class="insights-empty-text">No entries in this time period. Try a different filter!</div>
+          </div>
+        `;
+        return;
+      }
+
+      // Calculate all insights
+      const summary = generateSummary(filteredEntries);
+      const moodBreakdown = calculateMoodBreakdown(filteredEntries);
+      const wordPatterns = analyzeWordPatterns(filteredEntries);
+      const weekPatterns = analyzeWeekPatterns(filteredEntries);
+      const timePatterns = analyzeTimePatterns(filteredEntries);
+      const streakImpact = analyzeStreakImpact(filteredEntries);
+
+      // Build HTML
+      let html = `
+        <!-- Time Filter -->
+        <div class="time-filter">
+          <button class="filter-btn ${currentTimeFilter === 'week' ? 'active' : ''}" onclick="setTimeFilter('week')">This Week</button>
+          <button class="filter-btn ${currentTimeFilter === 'month' ? 'active' : ''}" onclick="setTimeFilter('month')">This Month</button>
+          <button class="filter-btn ${currentTimeFilter === 'all' ? 'active' : ''}" onclick="setTimeFilter('all')">All Time</button>
+        </div>
+
+        <!-- Summary -->
+        ${summary ? `
+        <div class="insights-section">
+          <div class="summary-text">${summary}</div>
+        </div>
+        ` : ''}
+
+        <!-- Mood Breakdown -->
+        <div class="insights-section">
+          <h3>How You've Been Feeling</h3>
+          ${moodBreakdown.map((item, index) => {
+            const widthPercent = index === 0 ? 100 : (item.percentage / moodBreakdown[0].percentage) * 100;
+            return `
+              <div class="mood-bar-container">
+                <div class="mood-bar-label">
+                  <span class="mood-bar-emoji">${item.mood}</span>
+                  <span>${item.name}</span>
+                </div>
+                <div class="mood-bar-wrapper">
+                  <div class="mood-bar" style="width: ${widthPercent}%; background-color: ${moodColors[item.mood]};">
+                    ${item.percentage}% (${item.count} ${item.count === 1 ? 'entry' : 'entries'})
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+          <div class="mood-footer">Your most common mood is ${moodBreakdown[0].mood} ${moodBreakdown[0].name}</div>
+        </div>
+
+        <!-- Your 99 Pattern -->
+        ${wordPatterns ? `
+        <div class="insights-section">
+          <h3>Your 99 Pattern ✍️</h3>
+          <div class="insight-text">
+            On average, you use <span class="insight-highlight">${wordPatterns.avgWords}</span> of your 99 words
+          </div>
+          <div class="insight-text">
+            Your longest entry was <span class="insight-highlight">${wordPatterns.longest.words} words</span> on ${formatNiceDate(wordPatterns.longest.timestamp)}
+          </div>
+          <div class="insight-text">
+            Your shortest entry was <span class="insight-highlight">${wordPatterns.shortest.words} words</span> on ${formatNiceDate(wordPatterns.shortest.timestamp)}
+          </div>
+
+          ${wordPatterns.moodAverages.length > 0 ? `
+            <div class="word-bar-container">
+              ${wordPatterns.moodAverages.slice(0, 3).map(item => {
+                const widthPercent = (item.avg / 99) * 100;
+                let message = '';
+                if (item.mood === '😤') {
+                  message = 'venting helps!';
+                } else if (item.mood === '😢') {
+                  message = 'and that's okay';
+                } else if (item.mood === '😊') {
+                  message = 'when happy!';
+                } else if (item.mood === '🤔') {
+                  message = 'deep thoughts!';
+                } else {
+                  message = 'on average';
+                }
+
+                return `
+                  <div class="word-bar-item">
+                    <div class="word-bar-label">
+                      <div class="word-bar-mood">
+                        <span>${item.mood}</span>
+                        <span>${item.name}</span>
+                      </div>
+                      <div class="word-bar-value">${item.avg} words — ${message}</div>
+                    </div>
+                    <div class="word-bar-wrapper">
+                      <div class="word-bar-fill" style="width: ${widthPercent}%;"></div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          ` : '<div class="kind-message">Write a few more entries in different moods to see word patterns!</div>'}
+        </div>
+        ` : ''}
+
+        <!-- Your Week Pattern -->
+        ${weekPatterns && weekPatterns.mostActiveDay ? `
+        <div class="insights-section">
+          <h3>Your Week 📅</h3>
+          ${weekPatterns.mostActiveDay ? `<div class="insight-text">You write most on <span class="insight-highlight">${weekPatterns.mostActiveDay}s</span></div>` : ''}
+          ${weekPatterns.happiestDay ? `<div class="insight-text">Your happiest day tends to be <span class="insight-highlight">${weekPatterns.happiestDay} 😊</span></div>` : ''}
+          ${weekPatterns.toughestDay ? `<div class="insight-text">Your toughest day is usually <span class="insight-highlight">${weekPatterns.toughestDay}</span></div>` : ''}
+
+          <div class="week-chart">
+            ${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((dayShort, index) => {
+              const fullDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+              const count = weekPatterns.dayCounts[fullDays[index]] || 0;
+              const maxCount = Math.max(...Object.values(weekPatterns.dayCounts));
+              const heightPercent = maxCount > 0 ? (count / maxCount) * 100 : 0;
+
+              return `
+                <div class="week-day">
+                  <div class="week-day-label">${dayShort}</div>
+                  <div class="week-day-bar">
+                    ${count > 0 ? `
+                      <div class="week-day-fill" style="height: ${heightPercent}%;">
+                        <div class="week-day-count">${count}</div>
+                      </div>
+                    ` : ''}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+        ` : `
+        <div class="insights-section">
+          <h3>Your Week 📅</h3>
+          <div class="kind-message">Write a few more entries to see your weekly rhythm!</div>
+        </div>
+        `}
+
+        <!-- When You Write -->
+        ${timePatterns && timePatterns.mostActiveTime ? `
+        <div class="insights-section">
+          <h3>When You Write 🕐</h3>
+          <div class="insight-text">
+            Most of your entries are in the <span class="insight-highlight">${timePatterns.mostActiveTime.toLowerCase()}</span>
+          </div>
+          ${timePatterns.dominantMood ? `
+            <div class="insight-text">
+              Your ${timePatterns.mostActiveTime.toLowerCase()} entries tend to be <span class="insight-highlight">${timePatterns.dominantMood} ${moodNames[timePatterns.dominantMood]}</span>
+            </div>
+          ` : ''}
+          ${timePatterns.mostActiveTime === 'Night' && timePatterns.dominantMood ? `
+            <div class="kind-message">You're a night owl! Most entries are after 9pm${timePatterns.dominantMood === '😴' || timePatterns.dominantMood === '🤔' ? ', and they're often reflective or tired' : ''}</div>
+          ` : ''}
+        </div>
+        ` : `
+        <div class="insights-section">
+          <h3>When You Write 🕐</h3>
+          <div class="kind-message">Keep writing and we'll learn when inspiration strikes!</div>
+        </div>
+        `}
+
+        <!-- Streak Impact -->
+        ${streakImpact ? `
+        <div class="insights-section">
+          <h3>Does Writing Help? 🔥</h3>
+          ${streakImpact.isPositive ? `
+            <div class="insight-text">
+              On days you kept your streak, you were <span class="insight-highlight">${Math.abs(streakImpact.improvement)}% more likely</span> to feel happier!
+            </div>
+            <div class="kind-message">Writing consistently seems to boost your mood — keep it up!</div>
+          ` : `
+            <div class="insight-text">Keep building your streak to see if writing helps your mood!</div>
+            <div class="kind-message">The more you write, the clearer the patterns become 📈</div>
+          `}
+        </div>
+        ` : ''}
+      `;
+
+      container.innerHTML = html;
     }
 
     // Load entries when page loads
