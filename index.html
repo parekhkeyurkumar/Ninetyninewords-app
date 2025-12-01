@@ -1,2170 +1,486 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Your day in ninety-nine words. One less than perfect, just like life.">
-  <title>NinetyNine Words</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📔</text></svg>">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      padding: 0;
-      padding-top: 130px; /* Space for fixed header with taglines on mobile */
-    }
-
-    .container {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      z-index: 998;
-      transition: box-shadow 0.3s ease;
-    }
-
-    .header.scrolled {
-      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-    }
-
-    .header-content {
-      max-width: 700px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      padding: 16px 20px;
-      gap: 16px;
-    }
-
-    .header-branding {
-      flex: 1;
-      text-align: center;
-    }
-    
-    h1 {
-      color: #333;
-      font-size: 20px;
-      margin: 0;
-      font-weight: 700;
-    }
-
-    .tagline {
-      color: #666;
-      font-size: 13px;
-      margin-top: 4px;
-      display: block; /* Show on both mobile and desktop */
-    }
-
-    .tagline strong {
-      color: #764ba2;
-    }
-
-    /* Integrated Hamburger Button */
-    .hamburger-btn {
-      background: transparent;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      padding: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #666;
-      transition: all 0.2s;
-      border-radius: 8px;
-      min-width: 40px;
-      height: 40px;
-    }
-
-    .hamburger-btn:hover {
-      background: rgba(102, 126, 234, 0.1);
-      color: #667eea;
-    }
-
-    .hamburger-btn:active {
-      transform: scale(0.95);
-    }
-
-    /* Desktop styles */
-    @media (min-width: 768px) {
-      body {
-        padding-top: 120px; /* More space for taller desktop header */
-      }
-
-      .header-content {
-        padding: 24px 20px;
-      }
-
-      h1 {
-        font-size: 28px;
-      }
-
-      .tagline {
-        display: block; /* Show taglines on desktop */
-        font-size: 14px;
-      }
-    }
-    
-    .write-section {
-      background: white;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-
-    .search-section {
-      background: white;
-      padding: 20px 30px;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-
-    .search-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 15px;
-      font-size: 18px;
-      pointer-events: none;
-      color: #999;
-    }
-
-    #searchInput {
-      width: 100%;
-      padding: 12px 45px 12px 45px;
-      font-size: 16px;
-      border: 2px solid #e0e0e0;
-      border-radius: 12px;
-      font-family: inherit;
-      transition: border-color 0.3s;
-    }
-
-    #searchInput:focus {
-      outline: none;
-      border-color: #667eea;
-    }
-
-    .clear-search {
-      position: absolute;
-      right: 15px;
-      background: #f0f0f0;
-      border: none;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      font-size: 14px;
-      cursor: pointer;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      color: #666;
-      transition: all 0.2s;
-    }
-
-    .clear-search:hover {
-      background: #e0e0e0;
-      color: #333;
-    }
-
-    .clear-search.visible {
-      display: flex;
-    }
-
-    .search-results {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #666;
-      font-weight: 500;
-    }
-
-    .search-results.no-results {
-      color: #f5576c;
-    }
-
-    .mood-selector {
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .mood-label {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-
-    .mood-buttons {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .mood-btn {
-      font-size: 32px;
-      padding: 10px 15px;
-      border: 3px solid #e0e0e0;
-      border-radius: 12px;
-      background: white;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .mood-btn:hover {
-      transform: scale(1.1);
-      border-color: #667eea;
-    }
-
-    .mood-btn.selected {
-      border-color: #667eea;
-      background: #f0f4ff;
-      transform: scale(1.15);
-    }
-    
-    textarea { 
-      width: 100%; 
-      height: 150px; 
-      font-size: 16px; 
-      padding: 15px;
-      border: 2px solid #e0e0e0;
-      border-radius: 12px;
-      font-family: inherit;
-      resize: vertical;
-      transition: border-color 0.3s;
-    }
-    
-    textarea:focus {
-      outline: none;
-      border-color: #667eea;
-    }
-    
-    .word-count { 
-      color: #666; 
-      margin-top: 8px;
-      font-size: 14px;
-    }
-    
-    .warning { 
-      color: #f5576c;
-      font-weight: bold;
-    }
-    
-    .save-btn { 
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white; 
-      padding: 14px 35px; 
-      border: none; 
-      border-radius: 12px; 
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 15px;
-      transition: transform 0.2s, box-shadow 0.2s;
-      width: 100%;
-    }
-    
-    .save-btn:hover { 
-      transform: translateY(-2px);
-      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-    }
-    
-    .save-btn:active {
-      transform: translateY(0);
-    }
-    
-    .entries { 
-      margin-top: 20px;
-    }
-    
-    .entries-header {
-      background: white;
-      padding: 20px 30px;
-      border-radius: 16px;
-      margin-bottom: 15px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-    }
-    
-    .entries-header h2 {
-      color: #333;
-      font-size: 24px;
-    }
-    
-    .entry { 
-      background: white;
-      padding: 25px; 
-      margin: 15px 0; 
-      border-radius: 16px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-      border-left: 5px solid #667eea;
-      transition: transform 0.2s;
-    }
-    
-    .entry:hover {
-      transform: translateX(5px);
-    }
-    
-    .entry-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .entry-date { 
-      color: #999; 
-      font-size: 13px; 
-      font-weight: 600;
-    }
-
-    .entry-mood {
-      font-size: 28px;
-      margin-right: 15px;
-      cursor: help;
-      flex-shrink: 0;
-    }
-
-    .edit-btn {
-      background: #667eea;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .edit-btn:hover {
-      background: #764ba2;
-      transform: scale(1.05);
-    }
-
-    .delete-btn {
-      background: #ff4757;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .delete-btn:hover {
-      background: #ee5a6f;
-      transform: scale(1.05);
-    }
-
-    .save-edit-btn {
-      background: #10ac84;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .save-edit-btn:hover {
-      background: #0e9770;
-      transform: scale(1.05);
-    }
-
-    .cancel-edit-btn {
-      background: #999;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .cancel-edit-btn:hover {
-      background: #777;
-      transform: scale(1.05);
-    }
-
-    .entry.editing {
-      border-left-color: #10ac84;
-    }
-
-    .entry-edit-textarea {
-      width: 100%;
-      min-height: 100px;
-      font-size: 15px;
-      padding: 12px;
-      border: 2px solid #667eea;
-      border-radius: 8px;
-      font-family: inherit;
-      resize: vertical;
-      margin-bottom: 10px;
-    }
-
-    .entry-edit-textarea:focus {
-      outline: none;
-      border-color: #764ba2;
-    }
-
-    .entry-edit-word-count {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 10px;
-    }
-
-    .entry-edit-word-count.warning {
-      color: #f5576c;
-      font-weight: bold;
-    }
-
-    .entry-mood-selector {
-      margin-bottom: 15px;
-    }
-
-    .entry-mood-label {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
-    .entry-mood-buttons {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .entry-mood-btn {
-      font-size: 24px;
-      padding: 6px 10px;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      background: white;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .entry-mood-btn:hover {
-      transform: scale(1.1);
-      border-color: #667eea;
-    }
-
-    .entry-mood-btn.selected {
-      border-color: #667eea;
-      background: #f0f4ff;
-      transform: scale(1.1);
-    }
-    
-    .entry-text {
-      color: #333;
-      line-height: 1.6;
-      font-size: 15px;
-    }
-    
-    .no-entries {
-      background: white;
-      padding: 40px;
-      border-radius: 16px;
-      text-align: center;
-      color: #999;
-      font-style: italic;
-    }
-
-    .footer {
-      text-align: center;
-      color: white;
-      padding: 20px;
-      opacity: 0.8;
-      font-size: 14px;
-      margin-top: 40px;
-    }
-
-    /* Old hamburger styles removed - now integrated in header */
-
-    /* Sidebar */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -280px;
-      width: 280px;
-      height: 100vh;
-      background: white;
-      box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
-      z-index: 1001;
-      transition: left 0.3s ease;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .sidebar.open {
-      left: 0;
-    }
-
-    .sidebar-header {
-      padding: 30px 20px 20px;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    .sidebar-logo {
-      font-size: 24px;
-      font-weight: 700;
-      color: #333;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .sidebar-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: #f0f0f0;
-      border: none;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      font-size: 18px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #666;
-      transition: all 0.2s;
-    }
-
-    .sidebar-close:hover {
-      background: #e0e0e0;
-      color: #333;
-      transform: scale(1.1);
-    }
-
-    .sidebar-nav {
-      flex: 1;
-      padding: 20px 0;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 24px;
-      color: #666;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
-    }
-
-    .nav-item:hover {
-      background: #f5f5f5;
-      color: #333;
-    }
-
-    .nav-item.active {
-      background: #f0f4ff;
-      color: #667eea;
-      border-left: 4px solid #667eea;
-      padding-left: 20px;
-    }
-
-    .nav-item-icon {
-      font-size: 20px;
-    }
-
-    .sidebar-footer {
-      padding: 20px;
-      border-top: 1px solid #e0e0e0;
-      text-align: center;
-      color: #999;
-      font-size: 13px;
-      font-style: italic;
-    }
-
-    /* Backdrop */
-    .backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-
-    .backdrop.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    /* View sections */
-    .view-section {
-      display: none;
-    }
-
-    .view-section.active {
-      display: block;
-    }
-
-    /* Insights view */
-    .insights-view {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .insights-placeholder {
-      font-size: 48px;
-      margin-bottom: 20px;
-    }
-
-    .insights-text {
-      font-size: 20px;
-      color: #666;
-      font-weight: 500;
-    }
-
-    /* Time filter */
-    .time-filter {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .time-filter-btn {
-      padding: 12px 24px;
-      border: 2px solid #e0e0e0;
-      border-radius: 12px;
-      background: white;
-      color: #666;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-    }
-
-    .time-filter-btn:hover {
-      border-color: #667eea;
-      color: #667eea;
-      transform: translateY(-2px);
-    }
-
-    .time-filter-btn.active {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border-color: #667eea;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-    }
-
-    /* Empty states */
-    .insights-empty {
-      background: white;
-      padding: 60px 40px;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    .insights-empty-icon {
-      font-size: 64px;
-      margin-bottom: 20px;
-    }
-
-    .insights-empty-text {
-      font-size: 18px;
-      color: #666;
-      line-height: 1.6;
-    }
-
-    /* Insight cards */
-    .insight-card {
-      background: white;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    }
-
-    .insight-card-header {
-      font-size: 20px;
-      font-weight: 700;
-      color: #333;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .insight-card-content {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    /* Mood bar chart */
-    .mood-bar-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .mood-bar-label {
-      min-width: 120px;
-      font-size: 15px;
-      font-weight: 600;
-      color: #333;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .mood-bar-container {
-      flex: 1;
-      height: 32px;
-      background: #f5f5f5;
-      border-radius: 8px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .mood-bar-fill {
-      height: 100%;
-      transition: width 0.5s ease;
-      display: flex;
-      align-items: center;
-      padding-left: 10px;
-      color: white;
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .mood-bar-percentage {
-      min-width: 45px;
-      text-align: right;
-      font-size: 14px;
-      font-weight: 600;
-      color: #666;
-    }
-
-    /* Mood colors */
-    .mood-happy { background: #F59E0B; }
-    .mood-thoughtful { background: #3B82F6; }
-    .mood-neutral { background: #6B7280; }
-    .mood-tired { background: #8B5CF6; }
-    .mood-angry { background: #EF4444; }
-    .mood-sad { background: #06B6D4; }
-
-    /* Insight footer */
-    .insight-footer {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 2px solid #f5f5f5;
-      font-size: 15px;
-      color: #666;
-      font-weight: 500;
-    }
-
-    /* Pattern stats */
-    .pattern-stat {
-      padding: 15px;
-      background: #f8f9fa;
-      border-radius: 12px;
-      font-size: 15px;
-      color: #333;
-    }
-
-    .pattern-stat strong {
-      color: #667eea;
-      font-weight: 700;
-    }
-
-    .pattern-stat-label {
-      color: #999;
-      font-size: 13px;
-      margin-top: 4px;
-    }
-
-    /* Insights summary sentence */
-    .insights-summary {
-      background: linear-gradient(135deg, #FFF9E6 0%, #FFF4D6 100%);
-      border: 2px solid rgba(255, 193, 7, 0.3);
-      border-radius: 16px;
-      padding: 24px 30px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(255, 193, 7, 0.1);
-    }
-
-    .insights-summary-text {
-      font-size: 17px;
-      line-height: 1.6;
-      color: #6B5B28;
-      font-weight: 500;
-      text-align: center;
-    }
-
-    @media (max-width: 600px) {
-      .insights-summary {
-        padding: 20px 24px;
-      }
-
-      .insights-summary-text {
-        font-size: 16px;
-      }
-    }
-
-    /* Word count chart */
-    .word-count-chart {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .word-count-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .word-count-mood {
-      min-width: 100px;
-      font-size: 14px;
-      color: #666;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .word-count-bar {
-      flex: 1;
-      height: 24px;
-      background: #f5f5f5;
-      border-radius: 6px;
-      overflow: hidden;
-    }
-
-    .word-count-bar-fill {
-      height: 100%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      transition: width 0.5s ease;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding-right: 8px;
-      color: white;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    /* Week pattern chart */
-    .week-chart {
-      display: flex;
-      justify-content: space-around;
-      align-items: flex-end;
-      height: 120px;
-      margin: 20px 0;
-      padding: 0 10px;
-    }
-
-    .week-bar-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-    }
-
-    .week-bar-container {
-      width: 100%;
-      max-width: 40px;
-      height: 100px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-    }
-
-    .week-bar {
-      width: 100%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 4px 4px 0 0;
-      transition: height 0.5s ease;
-      min-height: 2px;
-    }
-
-    .week-day-label {
-      font-size: 13px;
-      color: #666;
-      font-weight: 600;
-    }
-
-    .week-insights {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .week-insight-item {
-      padding: 12px;
-      background: #f8f9fa;
-      border-radius: 10px;
-      font-size: 14px;
-      color: #333;
-      text-align: center;
-    }
-
-    .week-empty-message {
-      text-align: center;
-      padding: 40px 20px;
-      color: #999;
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    @media (max-width: 600px) {
-      .mood-bar-label {
-        min-width: 90px;
-        font-size: 14px;
-      }
-
-      .insight-card {
-        padding: 20px;
-      }
-
-      .time-filter {
-        padding: 15px;
-      }
-    }
-
-    /* Streak Counter */
-    .streak-counter {
-      background: linear-gradient(135deg, rgba(255, 183, 77, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
-      border: 2px solid rgba(255, 152, 0, 0.2);
-      border-radius: 12px;
-      padding: 16px 24px;
-      margin-bottom: 25px;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    .streak-counter.pulse {
-      animation: streakPulse 0.6s ease-out;
-    }
-
-    @keyframes streakPulse {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.05);
-        box-shadow: 0 5px 20px rgba(255, 152, 0, 0.3);
-      }
-    }
-
-    .streak-text {
-      font-size: 18px;
-      font-weight: 600;
-      color: #e65100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    @media (max-width: 500px) {
-      .streak-text {
-        font-size: 16px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Am Possible - Card Matching Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .game-container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .game-title {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.3em;
+        }
+
+        .reference-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            display: inline-block;
+            width: 100px;
+            height: 140px;
+            background: white;
+            border: 2px solid #333;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            user-select: none;
+        }
+
+        .card.face-down {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .card.face-down::before {
+            content: '?';
+        }
+
+        .card.face-up {
+            background: white;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .card.reference {
+            cursor: default;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .card.reference:hover {
+            transform: none;
+        }
+
+        .card-value {
+            font-size: 1.2em;
+        }
+
+        .card-suit {
+            font-size: 1.5em;
+        }
+
+        .card.red {
+            color: #e74c3c;
+        }
+
+        .card.black {
+            color: #2c3e50;
+        }
+
+        .cards-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .face-down-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 1.2em;
+            min-height: 30px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .message.success {
+            color: #27ae60;
+        }
+
+        .message.error {
+            color: #e74c3c;
+        }
+
+        .win-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .win-screen.active {
+            display: block;
+        }
+
+        .win-title {
+            font-size: 3em;
+            color: #27ae60;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .win-message {
+            font-size: 1.5em;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .play-again-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .play-again-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-container {
+                padding: 20px;
+            }
+
+            .game-title {
+                font-size: 1.5em;
+            }
+
+            .card {
+                width: 80px;
+                height: 112px;
+                font-size: 1.5em;
+            }
+
+            .face-down-cards {
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Unified Sticky Header -->
-  <div class="header" id="stickyHeader">
-    <div class="header-content">
-      <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
-      <div class="header-branding">
-        <h1>📔 NinetyNine Words</h1>
-        <p class="tagline">Your daily journal in 99 words.<br><strong>One less than perfect, just like life.</strong></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Backdrop -->
-  <div class="backdrop" onclick="closeSidebar()"></div>
-
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <div class="sidebar-logo">📓 NinetyNine Words</div>
-      <button class="sidebar-close" onclick="closeSidebar()">✕</button>
-    </div>
-    <nav class="sidebar-nav">
-      <button class="nav-item active" onclick="switchView('capture', event)">
-        <span class="nav-item-icon">✏️</span>
-        <span>Capture</span>
-      </button>
-      <button class="nav-item" onclick="switchView('insights', event)">
-        <span class="nav-item-icon">📊</span>
-        <span>Insights</span>
-      </button>
-    </nav>
-    <div class="sidebar-footer">
-      Write less. Remember more.
-    </div>
-  </div>
-
-  <div class="container">
-    <!-- Capture View (Default) -->
-    <div class="view-section active" id="captureView">
-
-      <div class="write-section">
-      <!-- Streak Counter -->
-      <div class="streak-counter" id="streakCounter">
-        <div class="streak-text">
-          <span id="streakMessage">Start your streak today! 🔥</span>
+    <div class="game-container">
+        <div class="game-header">
+            <h1 class="game-title">I Am Possible</h1>
         </div>
-      </div>
 
-      <div class="mood-selector">
-        <div class="mood-label">Pick your mood</div>
-        <div class="mood-buttons">
-          <button type="button" class="mood-btn" data-mood="😊" onclick="selectMood('😊', event)" title="Happy">😊</button>
-          <button type="button" class="mood-btn" data-mood="🤔" onclick="selectMood('🤔', event)" title="Thoughtful">🤔</button>
-          <button type="button" class="mood-btn" data-mood="😐" onclick="selectMood('😐', event)" title="Neutral">😐</button>
-          <button type="button" class="mood-btn" data-mood="😴" onclick="selectMood('😴', event)" title="Tired">😴</button>
-          <button type="button" class="mood-btn" data-mood="😤" onclick="selectMood('😤', event)" title="Angry">😤</button>
-          <button type="button" class="mood-btn" data-mood="😢" onclick="selectMood('😢', event)" title="Sad">😢</button>
-        </div>
-      </div>
-
-      <textarea id="diaryEntry" placeholder="What's worth remembering today?"></textarea>
-      <div class="word-count" id="wordCount">0 / 99 words</div>
-      <button class="save-btn" onclick="saveEntry()">📌 Keep it</button>
-    </div>
-
-    <div class="search-section">
-      <div class="search-container">
-        <span class="search-icon">🔍</span>
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Find a memory..."
-          oninput="handleSearch()"
-        />
-        <button class="clear-search" id="clearSearch" onclick="clearSearch()">✕</button>
-      </div>
-      <div class="search-results" id="searchResults"></div>
-    </div>
-
-      <div class="entries" id="entriesList"></div>
-    </div>
-
-    <!-- Insights View -->
-    <div class="view-section" id="insightsView">
-      <div class="insights-view" id="insightsContent">
-        <!-- Dynamic insights content will be inserted here -->
-      </div>
-    </div>
-
-    <div class="footer">
-      Write less. Remember more.
-    </div>
-  </div>
-
-  <script>
-    let selectedMood = null;
-    let editingEntryId = null;
-    let editingMood = null;
-    let currentView = 'capture';
-    let currentTimeFilter = 'all'; // 'week', 'month', 'all'
-
-    // Calculate current streak
-    function calculateStreak() {
-      const entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
-
-      if (entries.length === 0) {
-        return { streak: 0, hasEntryToday: false, hasEntryYesterday: false };
-      }
-
-      // Get all unique dates (YYYY-MM-DD format in local time)
-      const uniqueDates = new Set();
-      entries.forEach(entry => {
-        const date = new Date(entry.timestamp);
-        const dateStr = date.getFullYear() + '-' +
-                       String(date.getMonth() + 1).padStart(2, '0') + '-' +
-                       String(date.getDate()).padStart(2, '0');
-        uniqueDates.add(dateStr);
-      });
-
-      // Convert to sorted array (most recent first)
-      const sortedDates = Array.from(uniqueDates).sort().reverse();
-
-      // Get today's date string
-      const today = new Date();
-      const todayStr = today.getFullYear() + '-' +
-                      String(today.getMonth() + 1).padStart(2, '0') + '-' +
-                      String(today.getDate()).padStart(2, '0');
-
-      // Get yesterday's date string
-      const yesterday = new Date(today);
-      yesterday.setDate(yesterday.getDate() - 1);
-      const yesterdayStr = yesterday.getFullYear() + '-' +
-                          String(yesterday.getMonth() + 1).padStart(2, '0') + '-' +
-                          String(yesterday.getDate()).padStart(2, '0');
-
-      const hasEntryToday = sortedDates.includes(todayStr);
-      const hasEntryYesterday = sortedDates.includes(yesterdayStr);
-
-      // Calculate streak
-      let streak = 0;
-      const startDate = hasEntryToday ? todayStr : yesterdayStr;
-
-      // If no entry today or yesterday, streak is broken
-      if (!hasEntryToday && !hasEntryYesterday) {
-        return { streak: 0, hasEntryToday: false, hasEntryYesterday: false };
-      }
-
-      // Count consecutive days
-      // Parse date string as local time to avoid timezone issues
-      const [startYear, startMonth, startDay] = startDate.split('-').map(Number);
-      let checkDate = new Date(startYear, startMonth - 1, startDay);
-
-      while (true) {
-        const checkDateStr = checkDate.getFullYear() + '-' +
-                            String(checkDate.getMonth() + 1).padStart(2, '0') + '-' +
-                            String(checkDate.getDate()).padStart(2, '0');
-
-        if (sortedDates.includes(checkDateStr)) {
-          streak++;
-          checkDate.setDate(checkDate.getDate() - 1);
-        } else {
-          break;
-        }
-      }
-
-      return { streak, hasEntryToday, hasEntryYesterday };
-    }
-
-    // Update streak display
-    function updateStreakDisplay(animate = false) {
-      const { streak, hasEntryToday, hasEntryYesterday } = calculateStreak();
-      const messageEl = document.getElementById('streakMessage');
-      const counterEl = document.getElementById('streakCounter');
-
-      let message = '';
-
-      if (streak === 0) {
-        // No entries ever
-        message = 'Start your streak today!';
-      } else if (!hasEntryToday && hasEntryYesterday) {
-        // Wrote yesterday but not today
-        message = `🔥 ${streak} day${streak !== 1 ? 's' : ''} — keep it going!`;
-      } else if (hasEntryToday) {
-        // Wrote today
-        if (streak === 99) {
-          message = '🔥 99 days! One less than perfect!';
-        } else if (streak === 1) {
-          message = '🔥 1 day streak!';
-        } else if (streak === 7) {
-          message = '🔥 1 week strong!';
-        } else if (streak === 30) {
-          message = '🔥 1 month strong!';
-        } else if (streak >= 60 && streak % 30 === 0) {
-          const months = Math.floor(streak / 30);
-          message = `🔥 ${months} months strong!`;
-        } else {
-          message = `🔥 ${streak} day${streak !== 1 ? 's' : ''}!`;
-        }
-      }
-
-      messageEl.textContent = message;
-
-      // Add pulse animation if requested
-      if (animate) {
-        counterEl.classList.remove('pulse');
-        // Force reflow to restart animation
-        void counterEl.offsetWidth;
-        counterEl.classList.add('pulse');
-
-        setTimeout(() => {
-          counterEl.classList.remove('pulse');
-        }, 600);
-      }
-    }
-
-    // Scroll shadow effect for sticky header
-    window.addEventListener('scroll', function() {
-      const header = document.getElementById('stickyHeader');
-      if (window.scrollY > 10) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    });
-
-    // Sidebar functions
-    function toggleSidebar() {
-      const sidebar = document.querySelector('.sidebar');
-      const backdrop = document.querySelector('.backdrop');
-      sidebar.classList.toggle('open');
-      backdrop.classList.toggle('visible');
-    }
-
-    function closeSidebar() {
-      const sidebar = document.querySelector('.sidebar');
-      const backdrop = document.querySelector('.backdrop');
-      sidebar.classList.remove('open');
-      backdrop.classList.remove('visible');
-    }
-
-    // View switching
-    function switchView(viewName, event) {
-      currentView = viewName;
-
-      // Hide all views
-      document.querySelectorAll('.view-section').forEach(view => {
-        view.classList.remove('active');
-      });
-
-      // Show selected view
-      if (viewName === 'capture') {
-        document.getElementById('captureView').classList.add('active');
-      } else if (viewName === 'insights') {
-        document.getElementById('insightsView').classList.add('active');
-        // Refresh insights when switching to insights view
-        renderInsights();
-      }
-
-      // Update nav items
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-      });
-      event.target.closest('.nav-item').classList.add('active');
-
-      // Close sidebar
-      closeSidebar();
-    }
-
-    // Mood to placeholder mapping
-    const moodPlaceholders = {
-      '😊': "What made you smile?",
-      '🤔': "What's on your mind?",
-      '😐': "Even ordinary days matter.",
-      '😴': "Too tired to talk? Type instead.",
-      '😤': "Let it out. No judgement.",
-      '😢': "Want to get it off your chest?"
-    };
-
-    // Mood to name mapping for tooltips
-    const moodNames = {
-      '😊': "Happy",
-      '🤔': "Thoughtful",
-      '😐': "Neutral",
-      '😴': "Tired",
-      '😤': "Angry",
-      '😢': "Sad"
-    };
-
-    const defaultPlaceholder = "What's worth remembering today?";
-
-    // Select mood when user clicks emoji
-    function selectMood(mood, event) {
-      selectedMood = mood;
-
-      document.querySelectorAll('.mood-btn').forEach(btn => {
-        btn.classList.remove('selected');
-      });
-      event.target.classList.add('selected');
-
-      // Update textarea placeholder based on selected mood
-      const textarea = document.getElementById('diaryEntry');
-      textarea.placeholder = moodPlaceholders[mood] || defaultPlaceholder;
-    }
-
-    // Handle search input
-    function handleSearch() {
-      const searchInput = document.getElementById('searchInput');
-      const clearBtn = document.getElementById('clearSearch');
-      const query = searchInput.value.trim();
-
-      // Show/hide clear button
-      if (query) {
-        clearBtn.classList.add('visible');
-      } else {
-        clearBtn.classList.remove('visible');
-      }
-
-      // Filter and display entries
-      displayEntries(query);
-    }
-
-    // Clear search
-    function clearSearch() {
-      document.getElementById('searchInput').value = '';
-      document.getElementById('clearSearch').classList.remove('visible');
-      document.getElementById('searchResults').textContent = '';
-      displayEntries();
-    }
-
-    // Escape HTML to prevent XSS
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    // Highlight search terms in text
-    function highlightText(text, query) {
-      if (!query) return escapeHtml(text);
-
-      // Escape the text first
-      const escapedText = escapeHtml(text);
-      const escapedQuery = escapeHtml(query);
-
-      // Then highlight the query
-      const regex = new RegExp(`(${escapedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-      return escapedText.replace(regex, '<mark style="background-color: #fff176; padding: 2px 0; border-radius: 2px;">$1</mark>');
-    }
-
-    // Count words as user types
-    document.getElementById('diaryEntry').addEventListener('input', function() {
-      const text = this.value.trim();
-      const words = text === '' ? 0 : text.split(/\s+/).length;
-      const counter = document.getElementById('wordCount');
-      
-      if (words > 99) {
-        counter.classList.add('warning');
-        counter.textContent = words + ' / 99 words - Too many words!';
-      } else {
-        counter.classList.remove('warning');
-        counter.textContent = words + ' / 99 words';
-      }
-    });
-
-    // Save entry to localStorage
-    function saveEntry() {
-      const text = document.getElementById('diaryEntry').value.trim();
-      const words = text === '' ? 0 : text.split(/\s+/).length;
-      
-      // Validation
-      if (text === '') {
-        alert('✍️ Write something first!');
-        return;
-      }
-      
-      if (words > 99) {
-        alert('📝 Please keep it under 99 words!');
-        return;
-      }
-
-      if (!selectedMood) {
-        alert('😊 Pick a mood first!');
-        return;
-      }
-      
-      // Get existing entries
-      let entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
-      
-      // Create new entry
-      const newEntry = {
-        id: Date.now(),
-        text: text,
-        mood: selectedMood,
-        timestamp: new Date().toISOString(),
-        date: new Date().toLocaleString('en-US', { 
-          weekday: 'short',
-          year: 'numeric', 
-          month: 'short', 
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        }),
-        words: words
-      };
-      
-      // Add to beginning of array
-      entries.unshift(newEntry);
-      
-      // Save to localStorage
-      localStorage.setItem('diaryEntries', JSON.stringify(entries));
-      
-      // Clear form
-      const textarea = document.getElementById('diaryEntry');
-      textarea.value = '';
-      textarea.placeholder = defaultPlaceholder;
-      document.getElementById('wordCount').textContent = '0 / 99 words';
-      selectedMood = null;
-      document.querySelectorAll('.mood-btn').forEach(btn => {
-        btn.classList.remove('selected');
-      });
-      
-      // Refresh display
-      displayEntries();
-
-      // Update streak counter with animation
-      updateStreakDisplay(true);
-
-      // Refresh insights
-      renderInsights();
-
-      alert('✅ Entry saved successfully!');
-    }
-
-    // Edit entry
-    function editEntry(id) {
-      // Prevent editing multiple entries at once
-      if (editingEntryId !== null && editingEntryId !== id) {
-        alert('⚠️ Please save or cancel the current edit first!');
-        return;
-      }
-
-      editingEntryId = id;
-      const entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
-      const entry = entries.find(e => e.id === id);
-
-      if (!entry) return;
-
-      editingMood = entry.mood;
-      displayEntries();
-    }
-
-    // Select mood for entry being edited
-    function selectEditMood(mood, entryId, event) {
-      editingMood = mood;
-
-      // Update button states
-      document.querySelectorAll(`[data-entry-mood-btn="${entryId}"]`).forEach(btn => {
-        btn.classList.remove('selected');
-      });
-      event.target.classList.add('selected');
-    }
-
-    // Update word count for entry being edited
-    function updateEditWordCount(entryId) {
-      const textarea = document.getElementById(`edit-textarea-${entryId}`);
-      const counter = document.getElementById(`edit-word-count-${entryId}`);
-
-      const text = textarea.value.trim();
-      const words = text === '' ? 0 : text.split(/\s+/).length;
-
-      if (words > 99) {
-        counter.classList.add('warning');
-        counter.textContent = words + ' / 99 words - Too many words!';
-      } else {
-        counter.classList.remove('warning');
-        counter.textContent = words + ' / 99 words';
-      }
-    }
-
-    // Save edited entry
-    function saveEdit(id) {
-      const textarea = document.getElementById(`edit-textarea-${id}`);
-      const text = textarea.value.trim();
-      const words = text === '' ? 0 : text.split(/\s+/).length;
-
-      // Validation
-      if (text === '') {
-        alert('✍️ Entry cannot be empty!');
-        return;
-      }
-
-      if (words > 99) {
-        alert('📝 Please keep it under 99 words!');
-        return;
-      }
-
-      if (!editingMood) {
-        alert('😊 Pick a mood!');
-        return;
-      }
-
-      // Get existing entries
-      let entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
-
-      // Find and update the entry
-      const entryIndex = entries.findIndex(e => e.id === id);
-      if (entryIndex !== -1) {
-        entries[entryIndex].text = text;
-        entries[entryIndex].mood = editingMood;
-        entries[entryIndex].words = words;
-      }
-
-      // Save to localStorage
-      localStorage.setItem('diaryEntries', JSON.stringify(entries));
-
-      // Reset editing state
-      editingEntryId = null;
-      editingMood = null;
-
-      // Refresh display
-      displayEntries();
-
-      // Update streak counter (no animation for edits)
-      updateStreakDisplay();
-
-      // Refresh insights
-      renderInsights();
-
-      alert('✅ Entry updated successfully!');
-    }
-
-    // Cancel edit
-    function cancelEdit() {
-      editingEntryId = null;
-      editingMood = null;
-      displayEntries();
-    }
-
-    // Delete entry
-    function deleteEntry(id) {
-      if (!confirm('Are you sure you want to delete this entry?')) {
-        return;
-      }
-
-      let entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
-      entries = entries.filter(entry => entry.id !== id);
-      localStorage.setItem('diaryEntries', JSON.stringify(entries));
-
-      displayEntries();
-
-      // Update streak counter (deleting might break the streak)
-      updateStreakDisplay();
-
-      // Refresh insights
-      renderInsights();
-
-      alert('🗑️ Entry deleted!');
-    }
-
-    // Display all entries
-    function displayEntries(searchQuery = '') {
-      const allEntries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
-      const container = document.getElementById('entriesList');
-      const searchResultsDiv = document.getElementById('searchResults');
-
-      // Filter entries based on search query
-      let entries = allEntries;
-      if (searchQuery) {
-        entries = allEntries.filter(entry =>
-          entry.text.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-      }
-
-      // Update search results message
-      if (searchQuery) {
-        if (entries.length === 0) {
-          searchResultsDiv.textContent = 'No memories found';
-          searchResultsDiv.classList.add('no-results');
-        } else {
-          searchResultsDiv.textContent = `${entries.length} memor${entries.length !== 1 ? 'ies' : 'y'} found`;
-          searchResultsDiv.classList.remove('no-results');
-        }
-      } else {
-        searchResultsDiv.textContent = '';
-        searchResultsDiv.classList.remove('no-results');
-      }
-
-      if (allEntries.length === 0) {
-        container.innerHTML = `
-          <div class="no-entries">
-            Your first 99 words start here.
-          </div>
-        `;
-        return;
-      }
-
-      if (entries.length === 0 && searchQuery) {
-        container.innerHTML = `
-          <div class="entries-header">
-            <h2>📅 Your Days</h2>
-          </div>
-          <div class="no-entries">
-            No memories match. Try different words?
-          </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = `
-        <div class="entries-header">
-          <h2>📅 Your Days</h2>
-        </div>
-      ` + entries.map(entry => {
-        const isEditing = editingEntryId === entry.id;
-
-        if (isEditing) {
-          // Edit mode
-          return `
-            <div class="entry editing">
-              <div class="entry-header">
-                <div>
-                  <div class="entry-date">${entry.date}</div>
+        <div id="gameArea">
+            <div class="game-stats">
+                <div class="stat">
+                    <div class="stat-label">Level</div>
+                    <div class="stat-value" id="levelDisplay">1</div>
                 </div>
-              </div>
-              <div class="entry-mood-selector">
-                <div class="entry-mood-label">Pick your mood</div>
-                <div class="entry-mood-buttons">
-                  <button type="button" class="entry-mood-btn ${editingMood === '😊' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😊', ${entry.id}, event)">😊</button>
-                  <button type="button" class="entry-mood-btn ${editingMood === '🤔' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('🤔', ${entry.id}, event)">🤔</button>
-                  <button type="button" class="entry-mood-btn ${editingMood === '😐' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😐', ${entry.id}, event)">😐</button>
-                  <button type="button" class="entry-mood-btn ${editingMood === '😴' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😴', ${entry.id}, event)">😴</button>
-                  <button type="button" class="entry-mood-btn ${editingMood === '😤' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😤', ${entry.id}, event)">😤</button>
-                  <button type="button" class="entry-mood-btn ${editingMood === '😢' ? 'selected' : ''}" data-entry-mood-btn="${entry.id}" onclick="selectEditMood('😢', ${entry.id}, event)">😢</button>
+                <div class="stat">
+                    <div class="stat-label">Streak</div>
+                    <div class="stat-value" id="streakDisplay">0</div>
                 </div>
-              </div>
-              <textarea
-                id="edit-textarea-${entry.id}"
-                class="entry-edit-textarea"
-                oninput="updateEditWordCount(${entry.id})"
-              >${entry.text}</textarea>
-              <div id="edit-word-count-${entry.id}" class="entry-edit-word-count">${entry.words} / 99 words</div>
-              <div style="display: flex; gap: 10px;">
-                <button class="save-edit-btn" onclick="saveEdit(${entry.id})">💾 Save</button>
-                <button class="cancel-edit-btn" onclick="cancelEdit()">✖️ Cancel</button>
-              </div>
             </div>
-          `;
-        } else {
-          // Normal display mode
-          return `
-            <div class="entry">
-              <div class="entry-header">
-                ${entry.mood ? `<span class="entry-mood" title="${moodNames[entry.mood] || ''}">${entry.mood}</span>` : ''}
-                <div style="flex: 1;">
-                  <div class="entry-date">${entry.date} • ${entry.words} words</div>
-                </div>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                  <button class="edit-btn" onclick="editEntry(${entry.id})">✏️ Edit</button>
-                  <button class="delete-btn" onclick="deleteEntry(${entry.id})">🗑️ Delete</button>
-                </div>
-              </div>
-              <div class="entry-text">${highlightText(entry.text, searchQuery)}</div>
+
+            <div class="reference-section">
+                <div class="section-label">Find this card:</div>
+                <div id="referenceCard"></div>
             </div>
-          `;
-        }
-      }).join('');
-    }
 
-    // Insights Functions
+            <div class="cards-section">
+                <div class="section-label">Choose one:</div>
+                <div class="face-down-cards" id="faceDownCards"></div>
+            </div>
 
-    // Filter entries by time period
-    function filterEntriesByTime(entries, filter) {
-      if (filter === 'all') return entries;
-
-      const now = new Date();
-      const cutoffDate = new Date();
-
-      if (filter === 'week') {
-        cutoffDate.setDate(now.getDate() - 7);
-      } else if (filter === 'month') {
-        cutoffDate.setDate(now.getDate() - 30);
-      }
-
-      return entries.filter(entry => {
-        const entryDate = new Date(entry.timestamp);
-        return entryDate >= cutoffDate;
-      });
-    }
-
-    // Get mood name from emoji
-    function getMoodName(emoji) {
-      return moodNames[emoji] || 'Unknown';
-    }
-
-    // Get mood CSS class from emoji
-    function getMoodClass(emoji) {
-      const classMap = {
-        '😊': 'mood-happy',
-        '🤔': 'mood-thoughtful',
-        '😐': 'mood-neutral',
-        '😴': 'mood-tired',
-        '😤': 'mood-angry',
-        '😢': 'mood-sad'
-      };
-      return classMap[emoji] || 'mood-neutral';
-    }
-
-    // Calculate mood breakdown
-    function calculateMoodBreakdown(entries) {
-      const moodCounts = {};
-
-      entries.forEach(entry => {
-        if (entry.mood) {
-          moodCounts[entry.mood] = (moodCounts[entry.mood] || 0) + 1;
-        }
-      });
-
-      // Convert to array and sort by count
-      const moodStats = Object.keys(moodCounts).map(mood => ({
-        emoji: mood,
-        name: getMoodName(mood),
-        count: moodCounts[mood],
-        percentage: Math.round((moodCounts[mood] / entries.length) * 100)
-      })).sort((a, b) => b.count - a.count);
-
-      return moodStats;
-    }
-
-    // Calculate word usage patterns
-    function calculateWordPatterns(entries) {
-      if (entries.length === 0) return null;
-
-      const totalWords = entries.reduce((sum, entry) => sum + entry.words, 0);
-      const avgWords = Math.round(totalWords / entries.length);
-
-      // Find longest and shortest entries
-      let longest = entries[0];
-      let shortest = entries[0];
-
-      entries.forEach(entry => {
-        if (entry.words > longest.words) longest = entry;
-        if (entry.words < shortest.words) shortest = entry;
-      });
-
-      // Calculate average words per mood
-      const moodWordCounts = {};
-      const moodEntryCounts = {};
-
-      entries.forEach(entry => {
-        if (entry.mood) {
-          moodWordCounts[entry.mood] = (moodWordCounts[entry.mood] || 0) + entry.words;
-          moodEntryCounts[entry.mood] = (moodEntryCounts[entry.mood] || 0) + 1;
-        }
-      });
-
-      const moodAverages = Object.keys(moodWordCounts).map(mood => ({
-        emoji: mood,
-        name: getMoodName(mood),
-        avg: Math.round(moodWordCounts[mood] / moodEntryCounts[mood])
-      })).sort((a, b) => b.avg - a.avg);
-
-      // Find mood with most/least words
-      let moodInsight = null;
-      if (moodAverages.length > 0) {
-        const maxMood = moodAverages[0];
-        const minMood = moodAverages[moodAverages.length - 1];
-
-        if (maxMood.avg > avgWords) {
-          moodInsight = {
-            mood: maxMood.emoji,
-            name: maxMood.name,
-            comparison: 'more',
-            avg: maxMood.avg
-          };
-        } else if (minMood.avg < avgWords) {
-          moodInsight = {
-            mood: minMood.emoji,
-            name: minMood.name,
-            comparison: 'less',
-            avg: minMood.avg
-          };
-        }
-      }
-
-      // Format longest entry date
-      const longestDate = new Date(longest.timestamp).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-      });
-
-      // Format shortest entry date
-      const shortestDate = new Date(shortest.timestamp).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-      });
-
-      return {
-        avgWords,
-        longest: { words: longest.words, date: longestDate },
-        shortest: { words: shortest.words, date: shortestDate },
-        moodAverages,
-        moodInsight
-      };
-    }
-
-    // Calculate weekly pattern
-    function calculateWeeklyPattern(entries) {
-      if (entries.length === 0) return null;
-
-      const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-      const dayFullNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-      // Initialize counters
-      const dayCounts = [0, 0, 0, 0, 0, 0, 0];
-      const happyDayCounts = [0, 0, 0, 0, 0, 0, 0];
-
-      // Count entries per day of week
-      entries.forEach(entry => {
-        const date = new Date(entry.timestamp);
-        const dayOfWeek = date.getDay();
-        dayCounts[dayOfWeek]++;
-
-        if (entry.mood === '😊') {
-          happyDayCounts[dayOfWeek]++;
-        }
-      });
-
-      // Find max count for scaling bars
-      const maxCount = Math.max(...dayCounts);
-
-      // Create day data for Mon-Sun (reorder from Sun-Sat)
-      const weekData = [1, 2, 3, 4, 5, 6, 0].map(dayIndex => ({
-        name: dayNames[dayIndex],
-        fullName: dayFullNames[dayIndex],
-        count: dayCounts[dayIndex],
-        happyCount: happyDayCounts[dayIndex],
-        height: maxCount > 0 ? (dayCounts[dayIndex] / maxCount) * 100 : 0
-      }));
-
-      // Find most active day
-      let maxDayIndex = 0;
-      for (let i = 1; i < 7; i++) {
-        if (dayCounts[i] > dayCounts[maxDayIndex]) {
-          maxDayIndex = i;
-        }
-      }
-
-      // Find happiest day (most happy entries)
-      let maxHappyIndex = 0;
-      for (let i = 1; i < 7; i++) {
-        if (happyDayCounts[i] > happyDayCounts[maxHappyIndex]) {
-          maxHappyIndex = i;
-        }
-      }
-
-      return {
-        weekData,
-        mostActiveDay: dayFullNames[maxDayIndex],
-        happiestDay: happyDayCounts[maxHappyIndex] > 0 ? dayFullNames[maxHappyIndex] : null,
-        totalEntries: entries.length
-      };
-    }
-
-    // Set time filter
-    function setTimeFilter(filter) {
-      currentTimeFilter = filter;
-      renderInsights();
-    }
-
-    // Generate insights summary message
-    function generateInsightsSummary(entries, filter) {
-      if (entries.length === 0) {
-        return '✍️ Keep writing to unlock your personal insights and patterns!';
-      }
-
-      // Get most common mood
-      const moodStats = calculateMoodBreakdown(entries);
-      if (moodStats.length === 0) {
-        return '✍️ Keep writing to unlock your personal insights and patterns!';
-      }
-
-      const topMood = moodStats[0];
-      const moodEmoji = topMood.emoji;
-      const moodName = topMood.name;
-
-      // Get time period text
-      let timePeriod = 'lately';
-      if (filter === 'week') {
-        timePeriod = 'this week';
-      } else if (filter === 'month') {
-        timePeriod = 'this month';
-      }
-
-      // Define messages for each mood
-      const moodMessages = {
-        '😊': [ // Happy
-          `🥳 Your mood has been mostly Happy ${timePeriod} — keep celebrating the small victories!`,
-          `☀️ Lots of good vibes ${timePeriod}. Keep riding that wave!`
-        ],
-        '🤔': [ // Thoughtful
-          `💡 A reflective ${filter === 'week' ? 'week' : filter === 'month' ? 'month' : 'time'}. You've been doing a lot of deep thinking and journaling.`,
-          `🧭 Your mind's been busy exploring new ideas. Thoughtful ${filter === 'week' ? 'weeks' : filter === 'month' ? 'months' : 'days'} lead to clarity.`
-        ],
-        '😐': [ // Neutral
-          `☕️ A steady ${filter === 'week' ? 'week' : filter === 'month' ? 'month' : 'time'}. Sometimes calm, like this, is exactly what we need.`,
-          `⚖️ Balanced vibes ${timePeriod}. Neutral days matter too.`
-        ],
-        '😴': [ // Tired
-          `🌙 You've been feeling tired ${timePeriod}. Hope you're getting the deep rest you deserve.`,
-          `🌊 Exhausting ${filter === 'week' ? 'week' : filter === 'month' ? 'month' : 'time'}? Be gentle with yourself. Rest is productive too.`
-        ],
-        '😤': [ // Angry
-          `🥊 Tough ${filter === 'week' ? 'week' : filter === 'month' ? 'month' : 'time'}. It's okay to feel fired up — writing it out helps process the energy.`,
-          `💥 A lot of frustration ${timePeriod}. Venting here is a healthy step.`
-        ],
-        '😢': [ // Sad
-          `☔️ It's been a heavy ${filter === 'week' ? 'week' : filter === 'month' ? 'month' : 'time'}. Thank you for showing up and acknowledging these feelings.`,
-          `💫 Hard days ${timePeriod}. Remember, you're not alone, and it's okay to feel this way.`
-        ]
-      };
-
-      // Get random message for the mood
-      const messages = moodMessages[moodEmoji] || [`You've been feeling ${moodName} ${timePeriod}.`];
-      const baseMessage = messages[Math.floor(Math.random() * messages.length)];
-
-      // Return only the mood message (day patterns now shown in Your Week card)
-      return baseMessage;
-    }
-
-    // Render insights
-    function renderInsights() {
-      const container = document.getElementById('insightsContent');
-      const allEntries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
-      const filteredEntries = filterEntriesByTime(allEntries, currentTimeFilter);
-
-      // Empty states
-      if (filteredEntries.length === 0) {
-        container.innerHTML = `
-          <div class="insights-empty">
-            <div class="insights-empty-icon">✨</div>
-            <div class="insights-empty-text">Your insights will appear here. Start with your first 99 words! ✨</div>
-          </div>
-        `;
-        return;
-      }
-
-      if (filteredEntries.length <= 2) {
-        container.innerHTML = `
-          <div class="insights-empty">
-            <div class="insights-empty-icon">📝</div>
-            <div class="insights-empty-text">A few more entries and we'll spot some patterns... 📝</div>
-          </div>
-        `;
-        return;
-      }
-
-      // Calculate insights
-      const moodStats = calculateMoodBreakdown(filteredEntries);
-      const wordPatterns = calculateWordPatterns(filteredEntries);
-      const weeklyPattern = calculateWeeklyPattern(filteredEntries);
-
-      // Generate insights summary
-      const summaryMessage = generateInsightsSummary(filteredEntries, currentTimeFilter);
-      const summaryHTML = `
-        <div class="insights-summary">
-          <div class="insights-summary-text">${summaryMessage}</div>
+            <div class="message" id="message"></div>
         </div>
-      `;
 
-      // Build time filter buttons
-      const timeFilterHTML = `
-        <div class="time-filter">
-          <button class="time-filter-btn ${currentTimeFilter === 'week' ? 'active' : ''}" onclick="setTimeFilter('week')">This Week</button>
-          <button class="time-filter-btn ${currentTimeFilter === 'month' ? 'active' : ''}" onclick="setTimeFilter('month')">This Month</button>
-          <button class="time-filter-btn ${currentTimeFilter === 'all' ? 'active' : ''}" onclick="setTimeFilter('all')">All Time</button>
-        </div>
-      `;
-
-      // Build mood breakdown card
-      let moodBreakdownHTML = `
-        <div class="insight-card">
-          <div class="insight-card-header">How You've Been Feeling</div>
-          <div class="insight-card-content">
-      `;
-
-      moodStats.forEach(mood => {
-        moodBreakdownHTML += `
-          <div class="mood-bar-item">
-            <div class="mood-bar-label">${mood.emoji} ${mood.name}</div>
-            <div class="mood-bar-container">
-              <div class="mood-bar-fill ${getMoodClass(mood.emoji)}" style="width: ${mood.percentage}%">
-                ${mood.percentage >= 15 ? mood.percentage + '%' : ''}
-              </div>
+        <div class="win-screen" id="winScreen">
+            <div class="win-title">You Are Possible!</div>
+            <div class="win-message">
+                Congratulations! You've completed all 7 levels.<br>
+                Your intuition is incredible!
             </div>
-            <div class="mood-bar-percentage">${mood.percentage}%</div>
-          </div>
-        `;
-      });
-
-      // Add footer with most common mood
-      const topMood = moodStats[0];
-      moodBreakdownHTML += `
-          </div>
-          <div class="insight-footer">
-            Your most common mood is ${topMood.emoji} ${topMood.name}
-          </div>
+            <button class="play-again-btn" onclick="resetGame()">Play Again</button>
         </div>
-      `;
+    </div>
 
-      // Build word patterns card
-      let wordPatternsHTML = `
-        <div class="insight-card">
-          <div class="insight-card-header">Your 99 Pattern ✍️</div>
-          <div class="insight-card-content">
-      `;
+    <script>
+        // Card data
+        const suits = ['♠', '♥', '♦', '♣'];
+        const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 
-      wordPatternsHTML += `
-        <div class="pattern-stat">
-          On average, you use <strong>${wordPatterns.avgWords}</strong> of your 99 words
-        </div>
-        <div class="pattern-stat">
-          <strong>Longest entry:</strong> ${wordPatterns.longest.words} words
-          <div class="pattern-stat-label">${wordPatterns.longest.date}</div>
-        </div>
-        <div class="pattern-stat">
-          <strong>Shortest entry:</strong> ${wordPatterns.shortest.words} words
-          <div class="pattern-stat-label">${wordPatterns.shortest.date}</div>
-        </div>
-      `;
+        // Game state
+        let currentLevel = 1;
+        let streak = 0;
+        let referenceCard = null;
+        let faceDownCards = [];
+        let isProcessing = false;
 
-      // Add mood word count chart
-      if (wordPatterns.moodAverages.length > 0) {
-        const maxAvg = Math.max(...wordPatterns.moodAverages.map(m => m.avg));
-
-        wordPatternsHTML += `
-          <div style="margin-top: 20px;">
-            <div style="font-size: 14px; font-weight: 600; color: #666; margin-bottom: 10px;">Average words by mood:</div>
-            <div class="word-count-chart">
-        `;
-
-        wordPatterns.moodAverages.forEach(mood => {
-          const percentage = (mood.avg / maxAvg) * 100;
-          wordPatternsHTML += `
-            <div class="word-count-item">
-              <div class="word-count-mood">${mood.emoji} ${mood.name}</div>
-              <div class="word-count-bar">
-                <div class="word-count-bar-fill" style="width: ${percentage}%">
-                  ${mood.avg}
-                </div>
-              </div>
-            </div>
-          `;
-        });
-
-        wordPatternsHTML += `
-            </div>
-          </div>
-        `;
-      }
-
-      // Add mood insight footer
-      if (wordPatterns.moodInsight) {
-        const insight = wordPatterns.moodInsight;
-        wordPatternsHTML += `
-          <div class="insight-footer">
-            When ${insight.mood} ${insight.name}, you write ${insight.comparison} — avg ${insight.avg} words
-          </div>
-        `;
-      }
-
-      wordPatternsHTML += `
-          </div>
-        </div>
-      `;
-
-      // Build weekly pattern card
-      let weekPatternHTML = '';
-      if (weeklyPattern) {
-        weekPatternHTML = `
-          <div class="insight-card">
-            <div class="insight-card-header">Your Week 📅</div>
-            <div class="insight-card-content">
-        `;
-
-        // Check if there are enough entries
-        if (weeklyPattern.totalEntries < 7) {
-          weekPatternHTML += `
-            <div class="week-empty-message">
-              Write a few more entries to see your weekly rhythm!
-            </div>
-          `;
-        } else {
-          // Build the week chart
-          weekPatternHTML += `
-            <div class="week-chart">
-          `;
-
-          weeklyPattern.weekData.forEach(day => {
-            weekPatternHTML += `
-              <div class="week-bar-item">
-                <div class="week-bar-container">
-                  <div class="week-bar" style="height: ${day.height}%"></div>
-                </div>
-                <div class="week-day-label">${day.name}</div>
-              </div>
-            `;
-          });
-
-          weekPatternHTML += `
-            </div>
-          `;
-
-          // Add insights
-          weekPatternHTML += `
-            <div class="week-insights">
-              <div class="week-insight-item">
-                You write most on ${weeklyPattern.mostActiveDay} 📝
-              </div>
-          `;
-
-          if (weeklyPattern.happiestDay) {
-            weekPatternHTML += `
-              <div class="week-insight-item">
-                Your happiest day: ${weeklyPattern.happiestDay} 😊
-              </div>
-            `;
-          }
-
-          weekPatternHTML += `
-            </div>
-          `;
+        // Create a full deck
+        function createDeck() {
+            const deck = [];
+            for (let suit of suits) {
+                for (let value of values) {
+                    deck.push({
+                        suit: suit,
+                        value: value,
+                        color: (suit === '♥' || suit === '♦') ? 'red' : 'black'
+                    });
+                }
+            }
+            return deck;
         }
 
-        weekPatternHTML += `
-            </div>
-          </div>
-        `;
-      }
+        // Shuffle array
+        function shuffle(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
 
-      // Combine all HTML
-      container.innerHTML = summaryHTML + timeFilterHTML + moodBreakdownHTML + wordPatternsHTML + weekPatternHTML;
-    }
+        // Check if two cards match
+        function cardsMatch(card1, card2) {
+            return card1.suit === card2.suit && card1.value === card2.value;
+        }
 
-    // Load entries when page loads
-    displayEntries();
-    updateStreakDisplay();
-    renderInsights();
-  </script>
+        // Create a card element
+        function createCardElement(card, isFaceDown = false, onClick = null) {
+            const cardEl = document.createElement('div');
+            cardEl.className = `card ${card.color}`;
+
+            if (isFaceDown) {
+                cardEl.classList.add('face-down');
+            } else {
+                cardEl.classList.add('face-up');
+                const valueEl = document.createElement('div');
+                valueEl.className = 'card-value';
+                valueEl.textContent = card.value;
+                const suitEl = document.createElement('div');
+                suitEl.className = 'card-suit';
+                suitEl.textContent = card.suit;
+                cardEl.appendChild(valueEl);
+                cardEl.appendChild(suitEl);
+            }
+
+            if (onClick) {
+                cardEl.addEventListener('click', onClick);
+            }
+
+            return cardEl;
+        }
+
+        // Deal cards for current level
+        function dealCards() {
+            const deck = shuffle(createDeck());
+            const numFaceDownCards = currentLevel + 1; // Level 1 = 2 cards, Level 2 = 3 cards, etc.
+
+            // Pick a random reference card
+            referenceCard = deck[0];
+
+            // Create face-down cards: one must be the matching card
+            faceDownCards = [];
+
+            // Add the matching card
+            faceDownCards.push({ ...referenceCard });
+
+            // Add random non-matching cards
+            let deckIndex = 1;
+            while (faceDownCards.length < numFaceDownCards && deckIndex < deck.length) {
+                const candidate = deck[deckIndex];
+                // Make sure we don't add duplicate matching cards
+                if (!cardsMatch(candidate, referenceCard)) {
+                    faceDownCards.push(candidate);
+                }
+                deckIndex++;
+            }
+
+            // Shuffle the face-down cards
+            faceDownCards = shuffle(faceDownCards);
+
+            renderGame();
+        }
+
+        // Render the game
+        function renderGame() {
+            // Update stats
+            document.getElementById('levelDisplay').textContent = currentLevel;
+            document.getElementById('streakDisplay').textContent = streak;
+
+            // Render reference card
+            const referenceCardEl = createCardElement(referenceCard, false);
+            referenceCardEl.classList.add('reference');
+            const referenceContainer = document.getElementById('referenceCard');
+            referenceContainer.innerHTML = '';
+            referenceContainer.appendChild(referenceCardEl);
+
+            // Render face-down cards
+            const faceDownContainer = document.getElementById('faceDownCards');
+            faceDownContainer.innerHTML = '';
+
+            faceDownCards.forEach((card, index) => {
+                const cardEl = createCardElement(card, true, () => handleCardClick(index, card));
+                faceDownContainer.appendChild(cardEl);
+            });
+
+            // Clear message
+            document.getElementById('message').textContent = '';
+            document.getElementById('message').className = 'message';
+        }
+
+        // Handle card click
+        function handleCardClick(index, card) {
+            if (isProcessing) return;
+            isProcessing = true;
+
+            const cardElements = document.querySelectorAll('.face-down-cards .card');
+            const clickedCard = cardElements[index];
+
+            // Reveal the card
+            clickedCard.classList.remove('face-down');
+            clickedCard.classList.add('face-up');
+            clickedCard.innerHTML = '';
+            const valueEl = document.createElement('div');
+            valueEl.className = 'card-value';
+            valueEl.textContent = card.value;
+            const suitEl = document.createElement('div');
+            suitEl.className = 'card-suit';
+            suitEl.textContent = card.suit;
+            clickedCard.appendChild(valueEl);
+            clickedCard.appendChild(suitEl);
+
+            const messageEl = document.getElementById('message');
+
+            setTimeout(() => {
+                if (cardsMatch(card, referenceCard)) {
+                    // Correct match!
+                    streak++;
+                    messageEl.textContent = `Correct! Streak: ${streak}`;
+                    messageEl.className = 'message success';
+
+                    setTimeout(() => {
+                        if (streak >= 3) {
+                            // Advance to next level
+                            streak = 0;
+                            currentLevel++;
+
+                            if (currentLevel > 7) {
+                                // Game won!
+                                showWinScreen();
+                            } else {
+                                messageEl.textContent = `Level Up! Now Level ${currentLevel}`;
+                                setTimeout(() => {
+                                    isProcessing = false;
+                                    dealCards();
+                                }, 1000);
+                            }
+                        } else {
+                            // Continue same level
+                            isProcessing = false;
+                            dealCards();
+                        }
+                    }, 1000);
+                } else {
+                    // Wrong match
+                    messageEl.textContent = 'Wrong! Streak reset. Try again.';
+                    messageEl.className = 'message error';
+                    streak = 0;
+
+                    setTimeout(() => {
+                        isProcessing = false;
+                        dealCards();
+                    }, 1500);
+                }
+            }, 300);
+        }
+
+        // Show win screen
+        function showWinScreen() {
+            document.getElementById('gameArea').style.display = 'none';
+            document.getElementById('winScreen').classList.add('active');
+        }
+
+        // Reset game
+        function resetGame() {
+            currentLevel = 1;
+            streak = 0;
+            document.getElementById('gameArea').style.display = 'block';
+            document.getElementById('winScreen').classList.remove('active');
+            isProcessing = false;
+            dealCards();
+        }
+
+        // Initialize game
+        dealCards();
+    </script>
 </body>
 </html>
